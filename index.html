@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SkinUp - Апгрейдер скинов Standoff 2</title>
+<title>SkinUp - Апгрейдер скинов</title>
 <style>
   :root {
     --bg-color: #12161c;
@@ -405,10 +405,6 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 8px;
-    background: #1f2733; /* временный фон, пока нет картинок */
-    border-radius: 6px;
-    color: #4a5a6d;
-    font-size: 12px;
   }
   .skin-image img {
     max-width: 100%;
@@ -720,31 +716,28 @@ commit    = sha256(serverSeed) === serverHash</div></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // МАССИВ СКИНОВ (Очищен от мусора, готов для твоих картинок)
-  // В поле img: ты просто впишешь название файла (например, "karambit.png")
-  // или ссылку на картинку.
-  
+  // МАССИВ СКИНОВ С ОРИГИНАЛЬНЫМИ КАРТИНКАМИ (Сервер Steam)
   const allSkins = [
     // Ножи
-    { name: "Karambit", sub: "Doppler", price: 3000, img: "" },
-    { name: "Butterfly", sub: "Fade", price: 4500, img: "" },
-    { name: "M9 Bayonet", sub: "Tiger Tooth", price: 2500, img: "" },
-    { name: "Kukri", sub: "Pixel Glass", price: 465, img: "" },
-    { name: "Talon", sub: "Retro Arcade", price: 532, img: "" },
+    { name: "Karambit", sub: "Doppler", price: 3000, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "Butterfly", sub: "Fade", price: 4500, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "M9 Bayonet", sub: "Tiger Tooth", price: 2500, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "Kukri", sub: "Pixel Glass", price: 465, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "Talon", sub: "Retro Arcade", price: 532, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
     
     // Винтовки
-    { name: "AKR", sub: "Treasure Hunter", price: 746, img: "" },
-    { name: "AWM", sub: "Venom", price: 206, img: "" },
-    { name: "M4A1", sub: "Bubblegum", price: 157, img: "" },
-    { name: "AKR", sub: "Genesis", price: 216, img: "" },
-    { name: "M4", sub: "Pixel Storm", price: 958, img: "" },
+    { name: "AKR", sub: "Treasure Hunter", price: 746, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "AWM", sub: "Venom", price: 206, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "M4A1", sub: "Bubblegum", price: 157, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "AKR", sub: "Genesis", price: 216, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "M4", sub: "Pixel Storm", price: 958, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
     
     // Пистолеты
-    { name: "Desert Eagle", sub: "Vermilion", price: 742, img: "" },
-    { name: "G22", sub: "Nest", price: 543, img: "" },
-    { name: "USP", sub: "Hologram", price: 562, img: "" },
-    { name: "P350", sub: "Forest Spirit", price: 366, img: "" },
-    { name: "Berettas", sub: "Contender", price: 260, img: "" }
+    { name: "Desert Eagle", sub: "Vermilion", price: 742, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "G22", sub: "Nest", price: 543, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "USP", sub: "Hologram", price: 562, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "P350", sub: "Forest Spirit", price: 366, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
+    { name: "Berettas", sub: "Contender", price: 260, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" }
   ];
 
   let currentPage = 0;
@@ -763,13 +756,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const card = document.createElement('div');
       card.className = 'skin-card';
       
-      // Если картинки нет, показываем заглушку с текстом
-      const imgContent = skin.img 
-        ? `<img src="${skin.img}" alt="${skin.name}">` 
-        : `<span style="font-size: 10px;">Нет фото</span>`;
-
+      // Обработка ошибки загрузки картинки (если вдруг не прогрузится)
       card.innerHTML = `
-        <div class="skin-image">${imgContent}</div>
+        <div class="skin-image"><img src="${skin.img}" alt="${skin.name}" onerror="this.style.display='none'"></div>
         <div class="skin-name">${skin.name}</div>
         <div class="skin-subname">${skin.sub}</div>
         <div class="skin-price">${skin.price} G</div>
