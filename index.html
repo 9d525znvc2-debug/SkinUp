@@ -405,6 +405,10 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 8px;
+    background: #1f2733; /* временный фон, пока нет картинок */
+    border-radius: 6px;
+    color: #4a5a6d;
+    font-size: 12px;
   }
   .skin-image img {
     max-width: 100%;
@@ -716,45 +720,31 @@ commit    = sha256(serverSeed) === serverHash</div></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // БАЗА СКИНОВ С ОРИГИНАЛЬНЫМИ КАРТИНКАМИ (Base64)
-  // Они вшиты прямо в код, так что загрузятся 100%
+  // МАССИВ СКИНОВ (Очищен от мусора, готов для твоих картинок)
+  // В поле img: ты просто впишешь название файла (например, "karambit.png")
+  // или ссылку на картинку.
   
-  // Картинки в base64 (обрезаны для примера, в реальном коде они полные)
-  // Для экономии места в этом сообщении я использую заглушки, 
-  // но ты должен вставить сюда полные base64 строки, которые я дал ранее.
-  // ВАЖНО: В финальной версии тут будут длинные строки data:image/png;base64,...
-  
-  const imgKarambit = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xNCA0bC0yIDItMy0zLTItMi01IDUgMiA1IDMgMyAyLTJ6Ii8+PHBhdGggZD0iTTE4IDExbC0xLjUgMS41LTEuNS0xLjUgMS41LTEuNSAxLjUgMS41eiIvPjxwYXRoIGQ9Ik0xNiAxM2wtMiAyLTEgMS0yIDIgMiAyIDIgMiAxLTFoMmwzLTN6Ii8+PC9zdmc+";
-  const imgButterfly = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xNCA0bC0yIDItMy0zLTItMi01IDUgMiA1IDMgMyAyLTJ6Ii8+PHBhdGggZD0iTTE4IDExbC0xLjUgMS41LTEuNS0xLjUgMS41LTEuNSAxLjUgMS41eiIvPjxwYXRoIGQ9Ik0xNiAxM2wtMiAyLTEgMS0yIDIgMiAyIDIgMiAxLTFoMmwzLTN6Ii8+PC9zdmc+";
-  const imgM9 = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xNCA0bC0yIDItMy0zLTItMi01IDUgMiA1IDMgMyAyLTJ6Ii8+PHBhdGggZD0iTTE4IDExbC0xLjUgMS41LTEuNS0xLjUgMS41LTEuNSAxLjUgMS41eiIvPjxwYXRoIGQ9Ik0xNiAxM2wtMiAyLTEgMS0yIDIgMiAyIDIgMiAxLTFoMmwzLTN6Ii8+PC9zdmc+";
-  const imgAwm = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMyA0bC0xIDFoLTJsLTEgMS0xIDFoLTNsLTEgMSAxIDFoM2wxIDFoN2wxIDFoM2wxLTF2LTJoLTJsLTEtMWgtMnoiLz48cGF0aCBkPSJNMTAgOWwtMSAxdjJoMWwxLTF2LTJ6Ii8+PC9zdmc+";
-  const imgAkr = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMyA0bC0xIDFoLTJsLTEgMS0xIDFoLTNsLTEgMSAxIDFoM2wxIDFoN2wxIDFoM2wxLTF2LTJoLTJsLTEtMWgtMnoiLz48cGF0aCBkPSJNMTAgOWwtMSAxdjJoMWwxLTF2LTJ6Ii8+PC9zdmc+";
-  const imgM4a1 = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMyA0bC0xIDFoLTJsLTEgMS0xIDFoLTNsLTEgMSAxIDFoM2wxIDFoN2wxIDFoM2wxLTF2LTJoLTJsLTEtMWgtMnoiLz48cGF0aCBkPSJNMTAgOWwtMSAxdjJoMWwxLTF2LTJ6Ii8+PC9zdmc+";
-  const imgDeagle = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMCA0bC0xIDFoLTJsLTEgMWgtMmwxIDFoMnYybC0xIDFoMmwzIDNoN2wxLTFoMnYtMmgtMnYtMmgtM3YtMmgtMnoiLz48cGF0aCBkPSJNMTAgMTBsLTEgMXYyaDFsMS0xdi0yeiIvPjwvc3ZnPg==";
-  const imgGlock = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMCA0bC0xIDFoLTJsLTEgMWgtMmwxIDFoMnYybC0xIDFoMmwzIDNoN2wxLTFoMnYtMmgtMnYtMmgtM3YtMmgtMnoiLz48cGF0aCBkPSJNMTAgMTBsLTEgMXYyaDFsMS0xdi0yeiIvPjwvc3ZnPg==";
-  const imgUsp = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMCA0bC0xIDFoLTJsLTEgMWgtMmwxIDFoMnYybC0xIDFoMmwzIDNoN2wxLTFoMnYtMmgtMnYtMmgtM3YtMmgtMnoiLz48cGF0aCBkPSJNMTAgMTBsLTEgMXYyaDFsMS0xdi0yeiIvPjwvc3ZnPg==";
-
   const allSkins = [
     // Ножи
-    { name: "Karambit", sub: "Doppler", price: 3000, img: imgKarambit },
-    { name: "Butterfly", sub: "Fade", price: 4500, img: imgButterfly },
-    { name: "M9 Bayonet", sub: "Tiger Tooth", price: 2500, img: imgM9 },
-    { name: "Kukri", sub: "Pixel Glass", price: 465, img: imgKarambit },
-    { name: "Talon", sub: "Retro Arcade", price: 532, img: imgButterfly },
+    { name: "Karambit", sub: "Doppler", price: 3000, img: "" },
+    { name: "Butterfly", sub: "Fade", price: 4500, img: "" },
+    { name: "M9 Bayonet", sub: "Tiger Tooth", price: 2500, img: "" },
+    { name: "Kukri", sub: "Pixel Glass", price: 465, img: "" },
+    { name: "Talon", sub: "Retro Arcade", price: 532, img: "" },
     
     // Винтовки
-    { name: "AKR", sub: "Treasure Hunter", price: 746, img: imgAkr },
-    { name: "AWM", sub: "Venom", price: 206, img: imgAwm },
-    { name: "M4A1", sub: "Bubblegum", price: 157, img: imgM4a1 },
-    { name: "AKR", sub: "Genesis", price: 216, img: imgAkr },
-    { name: "M4", sub: "Pixel Storm", price: 958, img: imgM4a1 },
+    { name: "AKR", sub: "Treasure Hunter", price: 746, img: "" },
+    { name: "AWM", sub: "Venom", price: 206, img: "" },
+    { name: "M4A1", sub: "Bubblegum", price: 157, img: "" },
+    { name: "AKR", sub: "Genesis", price: 216, img: "" },
+    { name: "M4", sub: "Pixel Storm", price: 958, img: "" },
     
     // Пистолеты
-    { name: "Desert Eagle", sub: "Vermilion", price: 742, img: imgDeagle },
-    { name: "G22", sub: "Nest", price: 543, img: imgGlock },
-    { name: "USP", sub: "Hologram", price: 562, img: imgUsp },
-    { name: "P350", sub: "Forest Spirit", price: 366, img: imgUsp },
-    { name: "Berettas", sub: "Contender", price: 260, img: imgDeagle }
+    { name: "Desert Eagle", sub: "Vermilion", price: 742, img: "" },
+    { name: "G22", sub: "Nest", price: 543, img: "" },
+    { name: "USP", sub: "Hologram", price: 562, img: "" },
+    { name: "P350", sub: "Forest Spirit", price: 366, img: "" },
+    { name: "Berettas", sub: "Contender", price: 260, img: "" }
   ];
 
   let currentPage = 0;
@@ -772,8 +762,14 @@ document.addEventListener('DOMContentLoaded', () => {
     pageSkins.forEach(skin => {
       const card = document.createElement('div');
       card.className = 'skin-card';
+      
+      // Если картинки нет, показываем заглушку с текстом
+      const imgContent = skin.img 
+        ? `<img src="${skin.img}" alt="${skin.name}">` 
+        : `<span style="font-size: 10px;">Нет фото</span>`;
+
       card.innerHTML = `
-        <div class="skin-image"><img src="${skin.img}" alt="${skin.name}"></div>
+        <div class="skin-image">${imgContent}</div>
         <div class="skin-name">${skin.name}</div>
         <div class="skin-subname">${skin.sub}</div>
         <div class="skin-price">${skin.price} G</div>
