@@ -232,7 +232,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   
-  // СПИСОК СКИНОВ (Все Arcane)
+  // ИДЕАЛЬНЫЙ СПИСОК СКИНОВ (165 шт. Все битые удалены)
   const allSkins = [
     { name: "Akimbo Uzi", sub: "Overdrive Red", price: 55.00, rarity: "arcane", img: "images/akimbo-uzi-overdrive-red.png" },
     { name: "F/S", sub: "Venom", price: 55.77, rarity: "arcane", img: "images/fs-venom.png" },
@@ -248,35 +248,25 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "Akimbo Uzi", sub: "Ravage", price: 157.00, rarity: "arcane", img: "images/akimbo-uzi-ravage.png" },
     { name: "M16", sub: "Raiva", price: 183.77, rarity: "arcane", img: "images/m16-raiva.png" },
     { name: "AKR12", sub: "Hanami", price: 193.97, rarity: "arcane", img: "images/akr12-hanami.png" },
-    { name: "Berettas", sub: "Contender", price: 195.00, rarity: "arcane", img: "images/berettas-contender.png" },
     { name: "SPAS", sub: "Glide", price: 196.66, rarity: "arcane", img: "images/spas-glide.png" },
     { name: "UMP45", sub: "Beast", price: 202.00, rarity: "arcane", img: "images/ump45-beast.png" },
     { name: "M4A1", sub: "Bubblegum", price: 209.99, rarity: "arcane", img: "images/m4a1-bubblegum.png" },
     { name: "VAL", sub: "Widow's Weave", price: 210.00, rarity: "arcane", img: "images/val-widows-weave.png" },
     { name: "SM1014", sub: "Freezing Gasp", price: 230.99, rarity: "arcane", img: "images/sm1014-freezing-gasp.png" },
     { name: "AKR12", sub: "Emberbird", price: 237.17, rarity: "arcane", img: "images/akr12-emberbird.png" },
-    { name: "AWM", sub: "Venom", price: 275.00, rarity: "arcane", img: "images/awm-venom.png" },
     { name: "AKR", sub: "Genesis", price: 289.00, rarity: "arcane", img: "images/akr-genesis.png" },
     { name: "AWM", sub: "Stickerbomb", price: 320.00, rarity: "arcane", img: "images/awm-stickerbomb.png" },
     { name: "AKR", sub: "Tag King", price: 325.00, rarity: "arcane", img: "images/akr-tag-king.png" },
-    { name: "MP5", sub: "Contender", price: 325.00, rarity: "arcane", img: "images/mp5-contender.png" },
     { name: "Desert Eagle", sub: "Fusion Core", price: 350.00, rarity: "arcane", img: "images/desert-eagle-fusion-core.png" },
     { name: "AKR", sub: "Dragon", price: 356.99, rarity: "arcane", img: "images/akr-dragon.png" },
     { name: "AWM", sub: "Spectral", price: 367.70, rarity: "arcane", img: "images/awm-spectral.png" },
-    { name: "M4A1", sub: "Treasure Hunter", price: 390.00, rarity: "arcane", img: "images/m4a1-treasure-hunter.png" },
     { name: "M4A1", sub: "Sparkling Gaze", price: 399.00, rarity: "arcane", img: "images/m4a1-sparkling-gaze.png" },
     { name: "Desert Eagle", sub: "Venator", price: 443.50, rarity: "arcane", img: "images/desert-eagle-venator.png" },
-    { name: "AKR12", sub: "Speedrun", price: 460.00, rarity: "arcane", img: "images/akr12-speedrun.png" },
-    { name: "M4A1", sub: "Lincoln", price: 460.00, rarity: "arcane", img: "images/m4a1-lincoln.png" },
-    { name: "VAL", sub: "Orbit", price: 470.00, rarity: "arcane", img: "images/val-orbit.png" },
     { name: "Berettas", sub: "Royal Rose", price: 478.46, rarity: "arcane", img: "images/berettas-royal-rose.png" },
     { name: "P350", sub: "Forest Spirit", price: 488.00, rarity: "arcane", img: "images/p350-forest-spirit.png" },
     { name: "FAMAS", sub: "Fury", price: 490.00, rarity: "arcane", img: "images/famas-fury.png" },
-    { name: "AWM", sub: "System Breach", price: 519.99, rarity: "arcane", img: "images/awm-system-breach.png" },
     { name: "M4", sub: "N-Kai", price: 530.00, rarity: "arcane", img: "images/m4-n-kai.png" },
     { name: "VAL", sub: "Gilded Gale", price: 539.70, rarity: "arcane", img: "images/val-gilded-gale.png" },
-    { name: "AWM", sub: "Ravage", price: 559.00, rarity: "arcane", img: "images/awm-ravage.png" },
-    { name: "M4", sub: "Wildstyle", price: 575.00, rarity: "arcane", img: "images/m4-wildstyle.png" },
     { name: "AKR12", sub: "Hanami", price: 606.22, rarity: "arcane", img: "images/akr12-hanami.png" },
     { name: "Scorpion", sub: "Ahau", price: 635.00, rarity: "arcane", img: "images/scorpion-ahau.png" },
     { name: "M4A1", sub: "Ferocity", price: 639.00, rarity: "arcane", img: "images/m4a1-ferocity.png" },
@@ -313,7 +303,6 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "Dual Daggers", sub: "Acid", price: 828.00, rarity: "arcane", img: "images/dual-daggers-acid.png" },
     { name: "Dual Daggers", sub: "Demonic St...", price: 830.00, rarity: "arcane", img: "images/dual-daggers-demonic-st.png" },
     { name: "Kukri", sub: "Ares", price: 834.98, rarity: "arcane", img: "images/kukri-ares.png" },
-    { name: "MP5", sub: "Contender", price: 840.00, rarity: "arcane", img: "images/mp5-contender.png" },
     { name: "Desert Eagle", sub: "Vermilion", price: 870.00, rarity: "arcane", img: "images/desert-eagle-vermilion.png" },
     { name: "Tanto", sub: "Frost Nova", price: 870.00, rarity: "arcane", img: "images/tanto-frost-nova.png" },
     { name: "Dual Daggers", sub: "Jaws", price: 874.00, rarity: "arcane", img: "images/dual-daggers-jaws.png" },
@@ -322,10 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "VAL", sub: "Widow's Weave", price: 884.99, rarity: "arcane", img: "images/val-widows-weave.png" },
     { name: "Scorpion", sub: "Cold Flame", price: 894.00, rarity: "arcane", img: "images/scorpion-cold-flame.png" },
     { name: "Stiletto", sub: "Voidroot", price: 900.00, rarity: "arcane", img: "images/stiletto-voidroot.png" },
-    { name: "AKR", sub: "Reis", price: 900.00, rarity: "arcane", img: "images/akr-reis.png" },
     { name: "Sting", sub: "Meld", price: 910.00, rarity: "arcane", img: "images/sting-meld.png" },
     { name: "SM1014", sub: "Freezing Gasp", price: 914.99, rarity: "arcane", img: "images/sm1014-freezing-gasp.png" },
-    { name: "Kunai", sub: "Diffusion", price: 920.00, rarity: "arcane", img: "images/kunai-diffusion.png" },
     { name: "Kunai", sub: "Fire Horse", price: 920.00, rarity: "arcane", img: "images/kunai-fire-horse.png" },
     { name: "jKommando", sub: "Prism", price: 930.00, rarity: "arcane", img: "images/jkommando-prism.png" },
     { name: "M4A1", sub: "PawPaw", price: 930.00, rarity: "arcane", img: "images/m4a1-pawpaw.png" },
@@ -341,7 +328,6 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "Stiletto", sub: "Ascend", price: 999.99, rarity: "arcane", img: "images/stiletto-ascend.png" },
     { name: "Stiletto", sub: "Tie Dye", price: 1000.00, rarity: "arcane", img: "images/stiletto-tie-dye.png" },
     { name: "Sting", sub: "Fleck", price: 1001.00, rarity: "arcane", img: "images/sting-fleck.png" },
-    { name: "AKR12", sub: "Riot", price: 1029.00, rarity: "arcane", img: "images/akr12-riot.png" },
     { name: "AKR", sub: "Jade Stone", price: 1050.00, rarity: "arcane", img: "images/akr-jade-stone.png" },
     { name: "Sting", sub: "Oil Sheen", price: 1059.99, rarity: "arcane", img: "images/sting-oil-sheen.png" },
     { name: "Fang", sub: "Ice Storm", price: 1060.00, rarity: "arcane", img: "images/fang-ice-storm.png" },
@@ -360,7 +346,6 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "Tanto", sub: "Transistor", price: 1133.00, rarity: "arcane", img: "images/tanto-transistor.png" },
     { name: "jKommando", sub: "Engraving", price: 1179.99, rarity: "arcane", img: "images/jkommando-engraving.png" },
     { name: "Fang", sub: "Flare", price: 1180.00, rarity: "arcane", img: "images/fang-flare.png" },
-    { name: "AWM", sub: "Venom", price: 1187.95, rarity: "arcane", img: "images/awm-venom.png" },
     { name: "Kunai", sub: "Augustite", price: 1199.00, rarity: "arcane", img: "images/kunai-augustite.png" },
     { name: "jKommando", sub: "Ancient", price: 1200.00, rarity: "arcane", img: "images/jkommando-ancient.png" },
     { name: "Desert Eagle", sub: "Jade Stone", price: 1200.00, rarity: "arcane", img: "images/desert-eagle-jade-stone.png" },
@@ -408,7 +393,6 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "Butterfly", sub: "Wild West", price: 2000.00, rarity: "arcane", img: "images/butterfly-wild-west.png" },
     { name: "Fang", sub: "Lapis Lazuli", price: 2000.00, rarity: "arcane", img: "images/fang-lapis-lazuli.png" },
     { name: "Butterfly", sub: "Ripple", price: 2050.00, rarity: "arcane", img: "images/butterfly-ripple.png" },
-    { name: "M4A1", sub: "Lincoln", price: 2098.99, rarity: "arcane", img: "images/m4a1-lincoln.png" },
     { name: "Flip", sub: "Dragon Glass", price: 2100.00, rarity: "arcane", img: "images/flip-dragon-glass.png" },
     { name: "Butterfly", sub: "Glitch", price: 2100.00, rarity: "arcane", img: "images/butterfly-glitch.png" },
     { name: "jKommando", sub: "Floral", price: 2150.00, rarity: "arcane", img: "images/jkommando-floral.png" },
@@ -424,7 +408,6 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "Flip", sub: "Frozen", price: 2438.98, rarity: "arcane", img: "images/flip-frozen.png" },
     { name: "Tanto", sub: "Blossom", price: 2485.77, rarity: "arcane", img: "images/tanto-blossom.png" },
     { name: "AWM", sub: "Vampire", price: 2494.00, rarity: "arcane", img: "images/awm-vampire.png" },
-    { name: "AWM", sub: "Spectral", price: 2500.00, rarity: "arcane", img: "images/awm-spectral.png" },
     { name: "P350", sub: "Forest Spirit", price: 2559.98, rarity: "arcane", img: "images/p350-forest-spirit.png" },
     { name: "Mantis", sub: "Yokai", price: 2600.00, rarity: "arcane", img: "images/mantis-yokai.png" },
     { name: "Karambit", sub: "Year Of The Tiger", price: 2649.99, rarity: "arcane", img: "images/karambit-year-of-the-tiger.png" },
@@ -515,13 +498,11 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "M4A1", sub: "Paladin", price: 23995.00, rarity: "arcane", img: "images/m4a1-paladin.png" },
     { name: "G22", sub: "Frozen", price: 26400.00, rarity: "arcane", img: "images/g22-frozen.png" },
     { name: "Desert Eagle", sub: "Yakuza", price: 26500.00, rarity: "arcane", img: "images/desert-eagle-yakuza.png" },
-    { name: "AWM", sub: "Moonstone", price: 30998.99, rarity: "arcane", img: "images/awm-moonstone.png" },
     { name: "M9 Bayonet", sub: "Universe", price: 30999.00, rarity: "arcane", img: "images/m9-bayonet-universe.png" },
     { name: "M9 Bayonet", sub: "Scratch", price: 34444.44, rarity: "arcane", img: "images/m9-bayonet-scratch.png" },
     { name: "M110", sub: "Celestial Beast", price: 44660.00, rarity: "arcane", img: "images/m110-celestial-beast.png" },
     { name: "Mantis", sub: "Ink Wash", price: 52200.00, rarity: "arcane", img: "images/mantis-ink-wash.png" },
     { name: "M9 Bayonet", sub: "Dragon Glass", price: 58400.00, rarity: "arcane", img: "images/m9-bayonet-dragon-glass.png" },
-    { name: "VAL", sub: "Phantom Pack", price: 61666.00, rarity: "arcane", img: "images/val-phantom-pack.png" },
     { name: "F/S", sub: "Poison", price: 77776.00, rarity: "arcane", img: "images/fs-poison.png" },
     { name: "AKR", sub: "Treasure Hunter", price: 78887.00, rarity: "arcane", img: "images/akr-treasure-hunter.png" },
     { name: "M40", sub: "Monster", price: 79990.00, rarity: "arcane", img: "images/m40-monster.png" },
@@ -682,7 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Фильтр по поиску
       if (search) items = items.filter(i => i.name.toLowerCase().includes(search) || i.sub.toLowerCase().includes(search));
       
-      // Фильтр по редкости (пока только Arcane и Все)
+      // Фильтр по редкости
       const selectedRarity = rarityFilter.value;
       if (selectedRarity !== 'all') {
         items = items.filter(i => i.rarity === selectedRarity);
