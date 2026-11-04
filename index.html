@@ -11,220 +11,101 @@
     --red: #eb4b4b; --green: #32d74b; --border-color: #30363d;
     --nav-bg: #0d1117; 
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-  body {
-    background-color: var(--bg-color); color: var(--text-main);
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    display: flex; flex-direction: column; min-height: 100vh;
-    overflow-x: hidden; padding-bottom: calc(90px + env(safe-area-inset-bottom)); 
-  }
-
-  /* ШАПКА */
-  .header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 20px; background: var(--nav-bg);
-    border-bottom: 1px solid #1f2733; position: sticky; top: 0; z-index: 50;
-  }
-  .logo { font-size: 22px; font-weight: 800; cursor: pointer; }
-  .logo span { color: var(--yellow); }
-  .header-actions { display: flex; align-items: center; gap: 12px; position: relative; }
-  .balance-box {
-    background: #161b22; padding: 6px 12px; border-radius: 8px;
-    border: 1px solid var(--border-color); font-size: 13px;
-    color: var(--text-muted); display: flex; align-items: center; gap: 5px;
-  }
-  .balance-box strong { color: var(--yellow); font-size: 15px; }
+  body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Segoe UI', Roboto, sans-serif; display: flex; flex-direction: column; min-height: 100vh; padding-bottom: 90px; }
   
-  .auth-btn-header {
-    background: var(--yellow); color: #000; border: none; padding: 8px 16px;
-    border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;
-  }
-  .user-profile-btn {
-    display: none; align-items: center; gap: 8px; cursor: pointer;
-    background: #161b22; padding: 4px 10px 4px 4px; border-radius: 20px;
-    border: 1px solid var(--border-color); max-width: 160px;
-  }
-  .avatar {
-    width: 24px; height: 24px; border-radius: 50%; background: var(--yellow);
-    color: #000; display: flex; justify-content: center; align-items: center;
-    font-weight: 800; font-size: 12px; text-transform: uppercase;
-  }
-  .username { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .profile-dropdown {
-    position: absolute; top: 45px; right: 0; width: 180px; background: #1a2029;
-    border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden;
-    display: none; z-index: 60;
-  }
+  /* ШАПКА */
+  .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: var(--nav-bg); border-bottom: 1px solid #1f2733; position: sticky; top: 0; z-index: 50; }
+  .logo { font-size: 22px; font-weight: 800; cursor: pointer; } .logo span { color: var(--yellow); }
+  .header-actions { display: flex; align-items: center; gap: 12px; position: relative; }
+  .balance-box { background: #161b22; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 13px; color: var(--text-muted); }
+  .balance-box strong { color: var(--yellow); font-size: 15px; }
+  .auth-btn-header { background: var(--yellow); color: #000; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  .user-profile-btn { display: none; align-items: center; gap: 8px; cursor: pointer; background: #161b22; padding: 4px 10px 4px 4px; border-radius: 20px; border: 1px solid var(--border-color); }
+  .avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--yellow); color: #000; display: flex; justify-content: center; align-items: center; font-weight: 800; }
+  .username { font-size: 13px; font-weight: 600; }
+  .profile-dropdown { position: absolute; top: 45px; right: 0; width: 180px; background: #1a2029; border: 1px solid var(--border-color); border-radius: 12px; display: none; z-index: 60; }
   .profile-dropdown.active { display: block; }
-  .dropdown-item { padding: 12px 16px; font-size: 14px; cursor: pointer; display: flex; gap: 10px; }
-  .dropdown-item:hover { background: #232b36; }
-  .dropdown-item.danger { color: var(--red); }
+  .dropdown-item { padding: 12px 16px; font-size: 14px; cursor: pointer; } .dropdown-item.danger { color: var(--red); }
   .settings-btn { background: none; border: none; color: var(--text-muted); font-size: 22px; cursor: pointer; }
-
-  /* КОНТЕНТ */
-  .main-content {
-    flex: 1; padding: 20px; display: flex; flex-direction: column;
-    align-items: center; max-width: 900px; margin: 0 auto; width: 100%;
-  }
-  .title { font-size: 22px; font-weight: 700; margin-bottom: 4px; text-align: center; }
-  .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; text-align: center; }
-
+  
+  /* ОСНОВА */
+  .main-content { flex: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; max-width: 900px; margin: 0 auto; width: 100%; }
+  .title { font-size: 22px; font-weight: 700; text-align: center; } .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; text-align: center; }
+  
   /* АПГРЕЙД */
-  .wheel-container {
-    position: relative; width: 220px; height: 220px; margin-bottom: 30px;
-    border-radius: 50%; border: 10px solid #1f2733;
-  }
+  .wheel-container { position: relative; width: 220px; height: 220px; margin-bottom: 30px; border-radius: 50%; border: 10px solid #1f2733; }
   .circle { position: absolute; inset: 0; border-radius: 50%; background: #232b36; overflow: hidden; }
-  .fill {
-    position: absolute; left: 0; right: 0; bottom: 0; height: 50%;
-    background: linear-gradient(180deg, #ffea00 0%, var(--orange) 100%);
-    transition: height 0.3s;
-  }
-  .wheel-text {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    text-align: center; z-index: 2; width: 100%;
-  }
-  .wheel-text .percent { font-size: 32px; font-weight: 800; color: #fff; }
-  .wheel-text .chance { font-size: 11px; color: rgba(255,255,255,0.9); }
-  .wheel-text .win-amount { font-size: 13px; font-weight: 600; color: #fff; margin-top: 4px; }
-  .arrow-container {
-    position: absolute; inset: -10px; pointer-events: none; z-index: 5;
-    transform-origin: center center; will-change: transform;
-  }
+  .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 50%; background: linear-gradient(180deg, #ffea00 0%, var(--orange) 100%); transition: height 0.3s; }
+  .wheel-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 2; width: 100%; }
+  .wheel-text .percent { font-size: 32px; font-weight: 800; color: #fff; } .wheel-text .chance { font-size: 11px; } .wheel-text .win-amount { font-size: 13px; font-weight: 600; margin-top: 4px; }
+  .arrow-container { position: absolute; inset: -10px; pointer-events: none; z-index: 5; transform-origin: center center; }
   .arrow { position: absolute; top: 0; left: 50%; width: 16px; height: 20px; margin-left: -8px; clip-path: polygon(0% 0%, 100% 0%, 50% 100%); background: #fff; }
-
   .controls { width: 100%; display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; max-width: 400px; }
   .input-row { display: flex; justify-content: center; align-items: center; gap: 12px; font-size: 15px; color: var(--text-muted); }
   .chance-display { font-size: 20px; font-weight: 800; color: var(--yellow); }
-  .bet-input {
-    width: 100px; background: #12161c; border: 1px solid var(--border-color);
-    color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 15px; outline: none;
-  }
-  .multipliers { display: flex; justify-content: space-between; gap: 8px; }
-  .mult-btn {
-    flex: 1; background: #161b22; border: 1px solid var(--border-color); color: #c9d1d9;
-    padding: 10px 0; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer;
-  }
+  .bet-input { width: 100px; background: #12161c; border: 1px solid var(--border-color); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 15px; }
+  .multipliers { display: flex; gap: 8px; }
+  .mult-btn { flex: 1; background: #161b22; border: 1px solid var(--border-color); color: #c9d1d9; padding: 10px 0; border-radius: 8px; font-weight: 600; cursor: pointer; }
   .mult-btn.active { background: var(--yellow); color: #000; border-color: var(--yellow); }
-  .mult-btn:disabled { opacity: 0.5; }
-  .action-area { position: relative; height: 60px; width: 100%; display: flex; max-width: 400px;}
-  .action-btn {
-    width: 100%; height: 100%; border-radius: 12px; border: none; font-size: 18px; font-weight: 700;
-    color: #000; background: linear-gradient(90deg, #ffd12e 0%, #ff9d00 100%); cursor: pointer;
-    text-transform: uppercase; position: absolute; inset: 0;
-  }
+  .action-area { position: relative; height: 60px; display: flex; max-width: 400px; width: 100%; }
+  .action-btn { width: 100%; height: 100%; border-radius: 12px; border: none; font-size: 18px; font-weight: 700; color: #000; background: linear-gradient(90deg, #ffd12e 0%, #ff9d00 100%); cursor: pointer; text-transform: uppercase; position: absolute; }
   .action-btn:disabled { opacity: 0.5; filter: grayscale(0.5); }
-  .notification {
-    width: 100%; height: 100%; border-radius: 12px; display: flex; justify-content: center; align-items: center;
-    text-align: center; font-weight: 700; font-size: 16px; opacity: 0; visibility: hidden;
-    position: absolute; inset: 0; transition: opacity 0.3s;
-  }
+  .notification { width: 100%; height: 100%; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-weight: 700; opacity: 0; visibility: hidden; position: absolute; transition: 0.3s; }
   .action-area.show-result .action-btn { opacity: 0; visibility: hidden; }
   .action-area.show-result .notification { opacity: 1; visibility: visible; }
   .notification.win { background: rgba(50, 215, 75, 0.1); border: 1px solid var(--green); color: var(--green); }
   .notification.lose { background: rgba(255, 59, 59, 0.1); border: 1px solid var(--red); color: var(--red); }
-
+  
   /* БУТЫЛОЧКА */
-  .bottle-wrapper {
-    position: relative; width: 100%; max-width: 320px; height: 320px; margin: 20px auto 40px;
-    display: flex; justify-content: center; align-items: center;
-  }
+  .bottle-wrapper { position: relative; width: 100%; max-width: 320px; height: 320px; margin: 20px auto 40px; display: flex; justify-content: center; align-items: center; }
   .bottle-circle { position: absolute; width: 90%; height: 90%; border-radius: 50%; border: 1px dashed #30363d; }
-  .bottle-center {
-    position: absolute; width: 160px; height: 160px; background: radial-gradient(circle, #ffd12e 0%, #ff7a00 100%);
-    border-radius: 50%; display: flex; justify-content: center; align-items: center;
-    box-shadow: 0 0 60px rgba(255, 209, 46, 0.6); z-index: 10; transition: transform 0.1s;
-  }
-  .bottle-center svg { width: 90px; height: 90px; fill: #fff; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
+  .bottle-center { position: absolute; width: 160px; height: 160px; background: radial-gradient(circle, #ffd12e 0%, #ff7a00 100%); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 60px rgba(255, 209, 46, 0.6); z-index: 10; transition: transform 0.1s; }
+  .bottle-center svg { width: 90px; height: 90px; fill: #fff; }
+  .bottle-item { position: absolute; width: 60px; height: 60px; background: #1a2029; border: 1px solid var(--border-color); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 14px; font-weight: 700; z-index: 5; }
+  .bottle-item.win { color: var(--green); } .bottle-item.lose { color: var(--red); }
+  .pos-1 { top: -10px; left: 50%; transform: translate(-50%, 0); } .pos-2 { top: 15%; right: -10px; } .pos-3 { bottom: 15%; right: -10px; } .pos-4 { bottom: -10px; left: 50%; transform: translate(-50%, 0); } .pos-5 { bottom: 15%; left: -10px; } .pos-6 { top: 15%; left: -10px; }
+  .spin-bottle-btn { width: 100%; max-width: 340px; background: linear-gradient(90deg, #ffd12e 0%, #ff9d00 100%); color: #000; border: none; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; }
   
-  .bottle-item {
-    position: absolute; width: 60px; height: 60px; background: #1a2029; border: 1px solid var(--border-color);
-    border-radius: 12px; display: flex; justify-content: center; align-items: center;
-    font-size: 14px; font-weight: 700; z-index: 5; transition: all 0.2s;
-  }
-  .bottle-item.win { color: var(--green); border-color: rgba(50,215,75,0.5); }
-  .bottle-item.lose { color: var(--red); border-color: rgba(255,59,59,0.5); }
-  
-  /* Позиции вокруг бутылки */
-  .pos-1 { top: -10px; left: 50%; transform: translate(-50%, 0); }
-  .pos-2 { top: 15%; right: -10px; transform: translate(0, 0); }
-  .pos-3 { bottom: 15%; right: -10px; transform: translate(0, 0); }
-  .pos-4 { bottom: -10px; left: 50%; transform: translate(-50%, 0); }
-  .pos-5 { bottom: 15%; left: -10px; transform: translate(0, 0); }
-  .pos-6 { top: 15%; left: -10px; transform: translate(0, 0); }
-
-  .spin-bottle-btn {
-    width: 100%; max-width: 340px; background: linear-gradient(90deg, #ffd12e 0%, #ff9d00 100%);
-    color: #000; border: none; padding: 15px; border-radius: 12px; font-size: 18px;
-    font-weight: 800; cursor: pointer; text-transform: uppercase;
-  }
-  .spin-bottle-btn:disabled { opacity: 0.5; filter: grayscale(0.5); }
-
-  /* МАГАЗИН И ИНВЕНТАРЬ */
+  /* МАГАЗИН */
   .inventory-section { width: 100%; background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; }
-  
   .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
   .history-btn { background: #161b22; border: 1px solid var(--border-color); color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; }
-  
   .inv-tabs { display: flex; gap: 10px; margin-bottom: 15px; background: #12161c; padding: 4px; border-radius: 8px; }
   .inv-tab { flex: 1; text-align: center; padding: 10px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 6px; }
   .inv-tab.active { background: var(--yellow); color: #000; }
-
-  .search-box { width: 100%; display: flex; align-items: center; background: #12161c; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 15px; margin-bottom: 15px; }
-  .search-box input { background: transparent; border: none; color: #fff; width: 100%; outline: none; font-size: 14px; }
-
+  .search-box { display: flex; align-items: center; background: #12161c; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 15px; margin-bottom: 15px; }
+  .search-box input { background: transparent; border: none; color: #fff; width: 100%; outline: none; }
   .skin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; min-height: 250px; }
-  .skin-card {
-    background: #161b22; border: 1px solid var(--border-color); border-radius: 10px;
-    padding: 10px; text-align: center; display: flex; flex-direction: column; position: relative;
-  }
-  /* Одна редкость - красная */
+  .skin-card { background: #161b22; border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; text-align: center; display: flex; flex-direction: column; position: relative; }
   .skin-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--red); border-radius: 0 0 10px 10px; }
-  
   .skin-image { height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
   .skin-image img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  
   .rarity-tag { position: absolute; top: 5px; left: 5px; font-size: 9px; padding: 2px 4px; border-radius: 4px; font-weight: bold; color: #fff; background: var(--red); }
-
   .skin-name { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .skin-subname { font-size: 10px; color: var(--text-muted); margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .skin-price { background: #12161c; color: var(--yellow); font-weight: 700; font-size: 12px; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border-color); margin-top: auto; cursor: pointer; }
-  .skin-price:hover { background: #1f2733; }
-
   .pagination { display: flex; justify-content: space-between; margin-top: 15px; gap: 10px; }
   .page-btn { flex: 1; background: #30363d; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; }
-  .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-  /* КЕЙСЫ */
-  .cases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; width: 100%; }
-  .case-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; }
-  .case-icon { font-size: 40px; margin-bottom: 10px; }
-
+  .page-btn:disabled { opacity: 0.3; }
+  
   /* НАВИГАЦИЯ */
-  .bottom-nav {
-    position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg);
-    border-top: 1px solid #1f2733; display: flex; justify-content: space-around; z-index: 100;
-  }
+  .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-top: 1px solid #1f2733; display: flex; justify-content: space-around; z-index: 100; }
   .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-size: 11px; gap: 4px; cursor: pointer; width: 25%; }
-  .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
-  .nav-item.active { color: var(--yellow); }
-
-  .page-section { display: none; width: 100%; flex-direction: column; align-items: center; }
-  .page-section.active { display: flex; }
-
+  .nav-item svg { width: 24px; height: 24px; fill: currentColor; } .nav-item.active { color: var(--yellow); }
+  .page-section { display: none; width: 100%; flex-direction: column; align-items: center; } .page-section.active { display: flex; }
+  
   /* МОДАЛКИ */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 200; opacity: 0; visibility: hidden; transition: 0.3s; padding: 20px; }
   .modal-overlay.active { opacity: 1; visibility: visible; }
   .modal { background: #1a2029; width: 100%; max-width: 360px; border-radius: 16px; padding: 20px; border: 1px solid var(--border-color); }
-  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
   .close-modal { background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; }
   .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); }
   .auth-tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; font-weight: 600; color: var(--text-muted); border-bottom: 2px solid transparent; }
   .auth-tab.active { color: var(--yellow); border-bottom-color: var(--yellow); }
   .auth-form { display: flex; flex-direction: column; gap: 15px; }
-  .auth-form input { width: 100%; padding: 14px; background: #12161c; border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 15px; outline: none; }
+  .auth-form input { width: 100%; padding: 14px; background: #12161c; border: 1px solid var(--border-color); border-radius: 8px; color: #fff; outline: none; }
   .save-settings-btn { width: 100%; background: var(--yellow); color: #000; border: none; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; }
 </style>
 </head>
@@ -246,158 +127,81 @@
     </div>
   </header>
 
-  <!-- КЕЙСЫ -->
   <main class="main-content page-section" id="page-cases">
     <h1 class="title">Кейсы</h1>
     <p class="subtitle">Открывай кейсы и получай редкие скины</p>
-    <div class="cases-grid">
-      <div class="case-card" onclick="alert('Кейс в разработке!')">
-        <div class="case-icon">📦</div>
-        <h3>Стандартный кейс</h3>
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; width:100%;">
+      <div class="case-card" onclick="alert('Кейс в разработке!')" style="background:var(--panel-bg); border:1px solid var(--border-color); border-radius:12px; padding:20px; text-align:center; cursor:pointer;">
+        <div style="font-size:40px; margin-bottom:10px;">📦</div><h3>Стандартный кейс</h3>
       </div>
-      <div class="case-card" onclick="alert('Кейс в разработке!')">
-        <div class="case-icon">🎁</div>
-        <h3>Arcane кейс</h3>
+      <div class="case-card" onclick="alert('Кейс в разработке!')" style="background:var(--panel-bg); border:1px solid var(--border-color); border-radius:12px; padding:20px; text-align:center; cursor:pointer;">
+        <div style="font-size:40px; margin-bottom:10px;">🎁</div><h3>Arcane кейс</h3>
       </div>
     </div>
   </main>
 
-  <!-- АПГРЕЙД -->
   <main class="main-content page-section active" id="page-upgrade">
     <h1 class="title">Апгрейдер скинов</h1>
     <p class="subtitle">Повышайте множитель и забирайте выигрыш.</p>
-
     <div class="wheel-container">
-      <div class="circle">
-        <div class="fill" id="fillEl"></div>
-        <div class="wheel-text">
-          <div class="percent" id="percentEl">50%</div>
-          <div class="chance">шанс успеха</div>
-          <div class="win-amount" id="winAmountEl">Выигрыш: 200 G</div>
-        </div>
-      </div>
+      <div class="circle"><div class="fill" id="fillEl"></div><div class="wheel-text"><div class="percent" id="percentEl">50%</div><div class="chance">шанс успеха</div><div class="win-amount" id="winAmountEl">Выигрыш: 200 G</div></div></div>
       <div class="arrow-container" id="arrowContainer"><div class="arrow"></div></div>
     </div>
-
     <div class="controls">
       <div class="input-row"><span>Шанс:</span><span class="chance-display" id="chanceDisplay">50 %</span></div>
-      <div class="input-row">
-        <span>Ставка:</span>
-        <input type="number" id="betInput" value="100" min="10" step="10" class="bet-input">
-        <span>G</span>
-      </div>
+      <div class="input-row"><span>Ставка:</span><input type="number" id="betInput" value="100" min="10" step="10" class="bet-input"><span>G</span></div>
       <div class="multipliers">
-        <button class="mult-btn" data-mult="1.3">x1.3</button>
-        <button class="mult-btn active" data-mult="2">x2</button>
-        <button class="mult-btn" data-mult="2.8">x2.8</button>
-        <button class="mult-btn" data-mult="4">x4</button>
-        <button class="mult-btn" data-mult="5">x5</button>
+        <button class="mult-btn" data-mult="1.3">x1.3</button><button class="mult-btn active" data-mult="2">x2</button><button class="mult-btn" data-mult="2.8">x2.8</button><button class="mult-btn" data-mult="4">x4</button><button class="mult-btn" data-mult="5">x5</button>
       </div>
-      <div class="action-area" id="actionArea">
-        <button class="action-btn" id="upgradeBtn" disabled>Апгрейд</button>
-        <div class="notification" id="notificationEl"></div>
-      </div>
+      <div class="action-area" id="actionArea"><button class="action-btn" id="upgradeBtn" disabled>Апгрейд</button><div class="notification" id="notificationEl"></div></div>
     </div>
   </main>
 
-  <!-- БУТЫЛОЧКА -->
   <main class="main-content page-section" id="page-bottle">
     <h1 class="title">Бутылочка</h1>
     <p class="subtitle">Испытай удачу и сорви джекпот!</p>
-
     <div class="bottle-wrapper">
       <div class="bottle-circle"></div>
-      <div class="bottle-center" id="bottleCenter">
-        <svg viewBox="0 0 24 24"><path d="M11 2h2v4.5l2.5 2.5c.4.4.5.9.5 1.5v9c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2v-9c0-.6.2-1.1.5-1.5L11 6.5V2zm-1 8.5v9h4v-9h-4z"/></svg>
-      </div>
-      
-      <div class="bottle-item pos-1 win" id="b-item-1">23%</div>
-      <div class="bottle-item pos-2 win" id="b-item-2">23%</div>
-      <div class="bottle-item pos-3 win" id="b-item-3">23%</div>
-      <div class="bottle-item pos-4 lose" id="b-item-4">10%</div>
-      <div class="bottle-item pos-5 lose" id="b-item-5">20%</div>
-      <div class="bottle-item pos-6 lose" id="b-item-6">1%</div>
+      <div class="bottle-center" id="bottleCenter"><svg viewBox="0 0 24 24"><path d="M11 2h2v4.5l2.5 2.5c.4.4.5.9.5 1.5v9c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2v-9c0-.6.2-1.1.5-1.5L11 6.5V2zm-1 8.5v9h4v-9h-4z"/></svg></div>
+      <div class="bottle-item pos-1 win" id="b-item-1">23%</div><div class="bottle-item pos-2 win" id="b-item-2">23%</div><div class="bottle-item pos-3 win" id="b-item-3">23%</div>
+      <div class="bottle-item pos-4 lose" id="b-item-4">10%</div><div class="bottle-item pos-5 lose" id="b-item-5">20%</div><div class="bottle-item pos-6 lose" id="b-item-6">1%</div>
     </div>
-
     <button class="spin-bottle-btn" id="spinBottleBtn" disabled>КРУТИТЬ (100 G)</button>
   </main>
 
-  <!-- ИНВЕНТАРЬ И МАГАЗИН -->
   <main class="main-content page-section" id="page-shop">
     <div class="inventory-section">
-      
-      <div class="top-bar">
-        <h2 style="font-size:18px;">Инвентарь</h2>
-        <button class="history-btn">🕒 История игр</button>
-      </div>
-
+      <div class="top-bar"><h2 style="font-size:18px;">Инвентарь</h2><button class="history-btn">🕒 История игр</button></div>
       <div class="inv-tabs">
         <div class="inv-tab active" id="tabInvBtn" onclick="switchShopTab('inv')">Инвентарь</div>
         <div class="inv-tab" id="tabShopBtn" onclick="switchShopTab('shop')">Магазин</div>
       </div>
-
-      <div class="search-box">
-        <span style="margin-right:10px; color:#8b96a5;">🔍</span>
-        <input type="text" placeholder="Поиск по инвентарю" id="searchInput" oninput="renderItems()">
-      </div>
-
-      <!-- Вкладка Инвентарь -->
-      <div id="invContent">
-        <div class="skin-grid" id="invGrid"></div>
-      </div>
-
-      <!-- Вкладка Магазин -->
+      <div class="search-box"><span style="margin-right:10px; color:#8b96a5;">🔍</span><input type="text" placeholder="Поиск по инвентарю" id="searchInput" oninput="renderItems()"></div>
+      <div id="invContent"><div class="skin-grid" id="invGrid"></div></div>
       <div id="shopContent" style="display: none;">
         <div class="skin-grid" id="shopGrid"></div>
-        <div class="pagination">
-          <button class="page-btn" id="prevBtn" onclick="changePage(-1)">← Назад</button>
-          <button class="page-btn" id="nextBtn" onclick="changePage(1)">Далее →</button>
-        </div>
+        <div class="pagination"><button class="page-btn" id="prevBtn" onclick="changePage(-1)">← Назад</button><button class="page-btn" id="nextBtn" onclick="changePage(1)">Далее →</button></div>
       </div>
-
     </div>
   </main>
 
   <nav class="bottom-nav">
-    <a class="nav-item" onclick="switchTab('cases')" id="nav-cases">
-      <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/></svg>
-      <span>Кейсы</span>
-    </a>
-    <a class="nav-item active" onclick="switchTab('upgrade')" id="nav-upgrade">
-      <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
-      <span>Апгрейд</span>
-    </a>
-    <a class="nav-item" onclick="switchTab('bottle')" id="nav-bottle">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-      <span>Бутылка</span>
-    </a>
-    <a class="nav-item" onclick="switchTab('shop')" id="nav-shop">
-      <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/></svg>
-      <span>Инвентарь</span>
-    </a>
+    <a class="nav-item" onclick="switchTab('cases')" id="nav-cases"><svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/></svg><span>Кейсы</span></a>
+    <a class="nav-item active" onclick="switchTab('upgrade')" id="nav-upgrade"><svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg><span>Апгрейд</span></a>
+    <a class="nav-item" onclick="switchTab('bottle')" id="nav-bottle"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg><span>Бутылка</span></a>
+    <a class="nav-item" onclick="switchTab('shop')" id="nav-shop"><svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg><span>Инвентарь</span></a>
   </nav>
 
-  <!-- МОДАЛКИ -->
   <div class="modal-overlay" id="authModal">
     <div class="modal">
       <div class="modal-header"><h2>Аккаунт</h2><button class="close-modal" onclick="closeModal('authModal')">×</button></div>
       <div class="auth-tabs"><div class="auth-tab active" id="tabLogin">Вход</div><div class="auth-tab" id="tabRegister">Регистрация</div></div>
-      <form class="auth-form" id="loginForm">
-        <input type="text" id="loginNick" placeholder="Ваш Никнейм" required>
-        <input type="password" id="loginPass" placeholder="Пароль" required>
-        <button type="submit" class="save-settings-btn">Войти</button>
-      </form>
-      <form class="auth-form" id="registerForm" style="display: none;">
-        <input type="text" id="regNick" placeholder="Придумайте Никнейм" required>
-        <input type="password" id="regPass" placeholder="Придумайте Пароль" required>
-        <button type="submit" class="save-settings-btn">Зарегистрироваться</button>
-      </form>
+      <form class="auth-form" id="loginForm"><input type="text" id="loginNick" placeholder="Ваш Никнейм" required><input type="password" id="loginPass" placeholder="Пароль" required><button type="submit" class="save-settings-btn">Войти</button></form>
+      <form class="auth-form" id="registerForm" style="display: none;"><input type="text" id="regNick" placeholder="Придумайте Никнейм" required><input type="password" id="regPass" placeholder="Придумайте Пароль" required><button type="submit" class="save-settings-btn">Зарегистрироваться</button></form>
     </div>
   </div>
-
   <div class="modal-overlay" id="settingsModal">
-    <div class="modal">
-      <div class="modal-header"><h2>Настройки</h2><button class="close-modal" onclick="closeModal('settingsModal')">×</button></div>
+    <div class="modal"><div class="modal-header"><h2>Настройки</h2><button class="close-modal" onclick="closeModal('settingsModal')">×</button></div>
       <button class="save-settings-btn" onclick="localStorage.clear(); location.reload();" style="background: #ff3b3b; color: #fff;">Сбросить прогресс</button>
       <button class="save-settings-btn" onclick="closeModal('settingsModal')" style="background: #30363d; color: #fff;">Закрыть</button>
     </div>
@@ -406,51 +210,61 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   
-  // БАЗА СКИНОВ (Все Arcane, без StatTrak)
+  // ПОЛНЫЙ СПИСОК СКИНОВ
   const allSkins = [
-    { name: "AKR", sub: "Orchid", price: 23000, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M4A1", sub: "Paladin", price: 23995, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "S2 AKR12", sub: "Year of the Hor...", price: 25599, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "G22", sub: "Frozen", price: 26400, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "Desert Eagle", sub: "Yakuza", price: 26500, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AWM", sub: "Moonstone", price: 30998, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M9 Bayonet", sub: "Universe", price: 30999, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M110", sub: "Celestial Beast", price: 44660, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M4A1", sub: "Year Of The Tiger", price: 149999, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "Butterfly", sub: "Arcane Surge", price: 249000, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "F/S", sub: "Venom", price: 242.80, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AWM", sub: "Venom", price: 275.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AKR", sub: "Genesis", price: 289.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M16", sub: "Raiva", price: 300.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M16", sub: "Shogun Stripes", price: 305.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AWM", sub: "Stickerbomb", price: 320.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AKR", sub: "Tag King", price: 325.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "MP5", sub: "Contender", price: 325.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "FabM", sub: "BOOM", price: 330.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "Berettas", sub: "Contender", price: 346.90, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "Desert Eagle", sub: "Fusion Core", price: 350.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AKR", sub: "Dragon", price: 356.99, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AWM", sub: "Spectral", price: 367.70, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M4A1", sub: "Treasure Hunter", price: 390.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M4A1", sub: "Sparkling Gaze", price: 399.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M16", sub: "Sea Glint", price: 399.99, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "G22", sub: "Twilight", price: 407.90, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "P90", sub: "Burning King", price: 415.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "MP7", sub: "Contender", price: 418.98, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AKR", sub: "Twilight", price: 425.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "Desert Eagle", sub: "Venator", price: 443.50, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AKR12", sub: "Speedrun", price: 460.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M4A1", sub: "Lincoln", price: 460.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "VAL", sub: "Orbit", price: 470.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "Berettas", sub: "Royal Rose", price: 478.46, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "P350", sub: "Forest Spirit", price: 488.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "FAMAS", sub: "Fury", price: 490.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AWM", sub: "System Breach", price: 519.99, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M4", sub: "N-Kai", price: 530.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "VAL", sub: "Gilded Gale", price: 539.70, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AWM", sub: "Ravage", price: 559.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "M4", sub: "Wildstyle", price: 575.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
-    { name: "AWM", sub: "Hohei Taisho", price: 579.00, rarity: "arcane", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" }
+    { name: "Akimbo Uzi", sub: "Overdrive Red", price: 55.00, img: "images/akimbo-uzi-overdrive-red.png" },
+    { name: "Akimbo Uzi", sub: "Ravage", price: 600.00, img: "images/akimbo-uzi-ravage.png" },
+    { name: "AKR", sub: "Dragon", price: 356.99, img: "images/akr-dragon.png" },
+    { name: "AKR", sub: "Genesis", price: 289.00, img: "images/akr-genesis.png" },
+    { name: "AKR", sub: "Tag King", price: 325.00, img: "images/akr-tag-king.png" },
+    { name: "AKR12", sub: "Emberbird", price: 237.17, img: "images/akr12-emberbird.png" },
+    { name: "AKR12", sub: "Hanami", price: 606.22, img: "images/akr12-hanami.png" },
+    { name: "AWM", sub: "BOOM", price: 600.00, img: "images/awm-boom.png" },
+    { name: "AWM", sub: "Hohei Taisho", price: 579.00, img: "images/awm-hohei-taisho.png" },
+    { name: "AWM", sub: "Spectral", price: 367.70, img: "images/awm-spectral.png" },
+    { name: "AWM", sub: "Stickerbomb", price: 320.00, img: "images/awm-stickerbomb.png" },
+    { name: "AWM", sub: "System Breach", price: 519.99, img: "images/awm-system-breach.png" },
+    { name: "Berettas", sub: "Royal Rose", price: 478.46, img: "images/berettas-royal-rose.png" },
+    { name: "Desert Eagle", sub: "Fusion Core", price: 350.00, img: "images/desert-eagle-fusion-core.png" },
+    { name: "Desert Eagle", sub: "Venator", price: 443.50, img: "images/desert-eagle-venator.png" },
+    { name: "Dual Daggers", sub: "Contagion", price: 744.00, img: "images/dual-daggers-contagion.png" },
+    { name: "Dual Daggers", sub: "Retro Arcade", price: 698.00, img: "images/dual-daggers-retro-arcade.png" },
+    { name: "Dual Daggers", sub: "Tiki", price: 702.99, img: "images/dual-daggers-tiki.png" },
+    { name: "FabM", sub: "BOOM", price: 330.00, img: "images/fabm-boom.png" },
+    { name: "FAMAS", sub: "Fury", price: 490.00, img: "images/famas-fury.png" },
+    { name: "F/S", sub: "Venom", price: 242.80, img: "images/fs-venom.png" },
+    { name: "G22", sub: "Nest", price: 725.00, img: "images/g22-nest.png" },
+    { name: "Kukri", sub: "Antique Silver", price: 760.00, img: "images/kukri-antique-silver.png" },
+    { name: "Kukri", sub: "Decay", price: 665.00, img: "images/kukri-decay.png" },
+    { name: "Kukri", sub: "Digital Burst", price: 750.00, img: "images/kukri-digital-burst.png" },
+    { name: "Kukri", sub: "Gold Trim", price: 698.00, img: "images/kukri-gold-trim.png" },
+    { name: "Kukri", sub: "Prophet", price: 750.00, img: "images/kukri-prophet.png" },
+    { name: "Kukri", sub: "Sea Glint", price: 650.00, img: "images/kukri-sea-glint.png" },
+    { name: "M16", sub: "Raiva", price: 300.00, img: "images/m16-raiva.png" },
+    { name: "M16", sub: "Sea Glint", price: 399.99, img: "images/m16-sea-glint.png" },
+    { name: "M16", sub: "Shogun Stripes", price: 305.00, img: "images/m16-shogun-stripes.png" },
+    { name: "M4", sub: "N-Kai", price: 530.00, img: "images/m4-n-kai.png" },
+    { name: "M4", sub: "Samurai", price: 594.99, img: "images/m4-samurai.png" },
+    { name: "M4A1", sub: "Bubblegum", price: 209.99, img: "images/m4a1-bubblegum.png" },
+    { name: "M4A1", sub: "Ferocity", price: 639.00, img: "images/m4a1-ferocity.png" },
+    { name: "M4A1", sub: "Sparkling Gaze", price: 399.00, img: "images/m4a1-sparkling-gaze.png" },
+    { name: "P350", sub: "Forest Spirit", price: 488.00, img: "images/p350-forest-spirit.png" },
+    { name: "P90", sub: "Nebula", price: 627.99, img: "images/p90-nebula.png" },
+    { name: "P90", sub: "Samurai", price: 725.00, img: "images/p90-samurai.png" },
+    { name: "Scorpion", sub: "Ahau", price: 635.00, img: "images/scorpion-ahau.png" },
+    { name: "Scorpion", sub: "Holiday Frost", price: 759.00, img: "images/scorpion-holiday-frost.png" },
+    { name: "Scorpion", sub: "Magnallium", price: 698.00, img: "images/scorpion-magnallium.png" },
+    { name: "Scorpion", sub: "Neko Joy", price: 650.00, img: "images/scorpion-neko-joy.png" },
+    { name: "Scorpion", sub: "Sea Eye", price: 700.00, img: "images/scorpion-sea-eye.png" },
+    { name: "Scorpion", sub: "Starfall", price: 765.88, img: "images/scorpion-starfall.png" },
+    { name: "Scorpion", sub: "Veil", price: 669.00, img: "images/scorpion-veil.png" },
+    { name: "SM1014", sub: "Freezing Gasp", price: 230.99, img: "images/sm1014-freezing-gasp.png" },
+    { name: "SPAS", sub: "Glide", price: 196.66, img: "images/spas-glide.png" },
+    { name: "Tanto", sub: "Retro Arcade", price: 710.00, img: "images/tanto-retro-arcade.png" },
+    { name: "Tanto", sub: "Solstice", price: 690.00, img: "images/tanto-solstice.png" },
+    { name: "UMP45", sub: "Beast", price: 202.00, img: "images/ump45-beast.png" },
+    { name: "VAL", sub: "Gilded Gale", price: 539.70, img: "images/val-gilded-gale.png" },
+    { name: "VAL", sub: "Widow's Weave", price: 210.00, img: "images/val-widows-weave.png" }
   ];
 
   // СОСТОЯНИЕ
