@@ -369,7 +369,7 @@
 
   /* Скролл и пагинация */
   .shop-container {
-    min-height: 380px; /* Фиксируем высоту, чтобы кнопки не прыгали */
+    min-height: 380px; 
     margin-bottom: 10px;
   }
 
@@ -618,7 +618,6 @@
       </div>
     </div>
 
-    <!-- ИНВЕНТАРЬ / МАГАЗИН -->
     <div class="inventory-section">
       <div class="inv-tabs">
         <div class="inv-tab active" id="tabInvMy" onclick="setInvTab('my')">Мой инвентарь</div>
@@ -636,7 +635,6 @@
           <div class="inv-empty"><h3>Инвентарь пуст</h3><p>Купите скины в магазине</p></div>
         </div>
 
-        <!-- МАГАЗИН С ПАГИНАЦИЕЙ -->
         <div id="invContentShop" style="display: none;">
           <div class="shop-container">
             <div class="skin-grid" id="shopGrid">
@@ -644,7 +642,6 @@
             </div>
           </div>
           
-          <!-- Кнопки пагинации -->
           <div class="pagination">
             <button class="page-btn" id="prevPageBtn" onclick="changePage(-1)">← Назад</button>
             <button class="page-btn" id="nextPageBtn" onclick="changePage(1)">Далее →</button>
@@ -719,59 +716,53 @@ commit    = sha256(serverSeed) === serverHash</div></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // БАЗА СКИНОВ (Ссылки на надежный хостинг картинок ImgBB, который не блокируется)
+  // SVG-картинки вшитые прямо в код (Base64). Это гарантирует загрузку без интернета!
+  const svgKnife = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xNCA0bC0yIDItMy0zLTItMi01IDUgMiA1IDMgMyAyLTJ6Ii8+PHBhdGggZD0iTTE4IDExbC0xLjUgMS41LTEuNS0xLjUgMS41LTEuNSAxLjUgMS41eiIvPjxwYXRoIGQ9Ik0xNiAxM2wtMiAyLTEgMS0yIDIgMiAyIDIgMiAxLTFoMmwzLTN6Ii8+PC9zdmc+";
+  const svgRifle = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMyA0bC0xIDFoLTJsLTEgMS0xIDFoLTNsLTEgMSAxIDFoM2wxIDFoN2wxIDFoM2wxLTF2LTJoLTJsLTEtMWgtMnoiLz48cGF0aCBkPSJNMTAgOWwtMSAxdjJoMWwxLTF2LTJ6Ii8+PC9zdmc+";
+  const svgPistol = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xMCA0bC0xIDFoLTJsLTEgMWgtMmwxIDFoMnYybC0xIDFoMmwzIDNoN2wxLTFoMnYtMmgtMnYtMmgtM3YtMmgtMnoiLz48cGF0aCBkPSJNMTAgMTBsLTEgMXYyaDFsMS0xdi0yeiIvPjwvc3ZnPg==";
+
+  // База скинов (Теперь с картинками, вшитыми в код)
   const allSkins = [
-    { name: "Karambit", sub: "Doppler", price: 3000, img: "https://i.ibb.co/680Hq7R/karambit.png" },
-    { name: "Butterfly", sub: "Fade", price: 4500, img: "https://i.ibb.co/L9QZ4z1/butterfly.png" },
-    { name: "M9 Bayonet", sub: "Tiger Tooth", price: 2500, img: "https://i.ibb.co/1K5tB9q/m9.png" },
-    { name: "Kukri", sub: "Pixel Glass", price: 465, img: "https://i.ibb.co/6P0yHqW/kukri.png" },
-    { name: "Talon", sub: "Retro Arcade", price: 532, img: "https://i.ibb.co/2P5yHqW/talon.png" },
-    { name: "Stiletto", sub: "Soul Devourer", price: 615, img: "https://i.ibb.co/3P5yHqW/stiletto.png" },
-    { name: "AKR", sub: "Treasure Hunter", price: 746, img: "https://i.ibb.co/4P5yHqW/ak47.png" },
-    { name: "AWM", sub: "Venom", price: 206, img: "https://i.ibb.co/5P5yHqW/awp.png" },
-
-    { name: "M4A1", sub: "Bubblegum", price: 157, img: "https://i.ibb.co/6P5yHqW/m4a1.png" },
-    { name: "AKR", sub: "Genesis", price: 216, img: "https://i.ibb.co/4P5yHqW/ak47.png" },
-    { name: "FAMAS", sub: "Fury", price: 367, img: "https://i.ibb.co/7P5yHqW/famas.png" },
-    { name: "M4", sub: "Pixel Storm", price: 958, img: "https://i.ibb.co/8P5yHqW/m4a4.png" },
-    { name: "Desert Eagle", sub: "Vermilion", price: 742, img: "https://i.ibb.co/9P5yHqW/deagle.png" },
-    { name: "G22", sub: "Nest", price: 543, img: "https://i.ibb.co/1P5yHqW/glock.png" },
-    { name: "USP", sub: "Hologram", price: 562, img: "https://i.ibb.co/2P5yHqW/usp.png" },
-    { name: "P350", sub: "Forest Spirit", price: 366, img: "https://i.ibb.co/3P5yHqW/p250.png" },
-
-    { name: "Berettas", sub: "Contender", price: 260, img: "https://i.ibb.co/4P5yHqW/elite.png" },
-    { name: "F/S", sub: "Venom", price: 182, img: "https://i.ibb.co/5P5yHqW/fiveseven.png" },
-    { name: "SPAS", sub: "Glide", price: 147, img: "https://i.ibb.co/6P5yHqW/spas12.png" },
-    { name: "UMP45", sub: "Beast", price: 151, img: "https://i.ibb.co/7P5yHqW/ump45.png" },
-    { name: "AWM", sub: "Boom", price: 82, img: "https://i.ibb.co/5P5yHqW/awp.png" },
-    { name: "FabM", sub: "BOOM", price: 66, img: "https://i.ibb.co/7P5yHqW/famas.png" },
-    { name: "P90", sub: "Burning King", price: 311, img: "https://i.ibb.co/8P5yHqW/p90.png" },
-    { name: "M4A1", sub: "Paladin", price: 1244, img: "https://i.ibb.co/6P5yHqW/m4a1.png" },
+    // Ножи
+    { name: "Karambit", sub: "Doppler", price: 3000, img: svgKnife },
+    { name: "Butterfly", sub: "Fade", price: 4500, img: svgKnife },
+    { name: "M9 Bayonet", sub: "Tiger Tooth", price: 2500, img: svgKnife },
+    { name: "Kukri", sub: "Pixel Glass", price: 465, img: svgKnife },
+    { name: "Talon", sub: "Retro Arcade", price: 532, img: svgKnife },
+    { name: "Stiletto", sub: "Soul Devourer", price: 615, img: svgKnife },
     
-    { name: "AWM", sub: "Genesis", price: 4682, img: "https://i.ibb.co/5P5yHqW/awp.png" },
-    { name: "AKR", sub: "Jade Stone", price: 787, img: "https://i.ibb.co/4P5yHqW/ak47.png" },
-    { name: "M4", sub: "Sunset", price: 4679, img: "https://i.ibb.co/8P5yHqW/m4a4.png" },
-    { name: "G22", sub: "Impulse", price: 6750, img: "https://i.ibb.co/1P5yHqW/glock.png" },
-    { name: "M4A1", sub: "Impact", price: 6974, img: "https://i.ibb.co/6P5yHqW/m4a1.png" },
-    { name: "Karambit", sub: "Jade Stone", price: 11996, img: "https://i.ibb.co/680Hq7R/karambit.png" },
-    { name: "Butterfly", sub: "Kumo", price: 6375, img: "https://i.ibb.co/L9QZ4z1/butterfly.png" },
-    { name: "M9 Bayonet", sub: "Ancient", price: 6090, img: "https://i.ibb.co/1K5tB9q/m9.png" },
+    // Винтовки
+    { name: "AKR", sub: "Treasure Hunter", price: 746, img: svgRifle },
+    { name: "AWM", sub: "Venom", price: 206, img: svgRifle },
+    { name: "M4A1", sub: "Bubblegum", price: 157, img: svgRifle },
+    { name: "AKR", sub: "Genesis", price: 216, img: svgRifle },
+    { name: "FAMAS", sub: "Fury", price: 367, img: svgRifle },
+    { name: "M4", sub: "Pixel Storm", price: 958, img: svgRifle },
+    { name: "AWM", sub: "Boom", price: 82, img: svgRifle },
+    { name: "FabM", sub: "BOOM", price: 66, img: svgRifle },
+    { name: "M4A1", sub: "Paladin", price: 1244, img: svgRifle },
+    { name: "AWM", sub: "Genesis", price: 4682, img: svgRifle },
+    { name: "AKR", sub: "Jade Stone", price: 787, img: svgRifle },
+    { name: "M4", sub: "Sunset", price: 4679, img: svgRifle },
+    { name: "M4A1", sub: "Impact", price: 6974, img: svgRifle },
+    { name: "AKR", sub: "Year of the Hor...", price: 591, img: svgRifle },
+    { name: "M4", sub: "Wildstyle", price: 575, img: svgRifle },
+    { name: "AWM", sub: "System Breach", price: 519, img: svgRifle },
     
-    // Ещё скины
-    { name: "Karambit", sub: "Gold", price: 3250, img: "https://i.ibb.co/680Hq7R/karambit.png" },
-    { name: "Butterfly", sub: "Arcane Surge", price: 4500, img: "https://i.ibb.co/L9QZ4z1/butterfly.png" },
-    { name: "M9 Bayonet", sub: "Dragon Glass", price: 2800, img: "https://i.ibb.co/1K5tB9q/m9.png" },
-    { name: "Kunai", sub: "Reaper", price: 1900, img: "https://i.ibb.co/2P5yHqW/talon.png" },
-    { name: "AKR", sub: "Year of the Hor...", price: 591, img: "https://i.ibb.co/4P5yHqW/ak47.png" },
-    { name: "M4", sub: "Wildstyle", price: 575, img: "https://i.ibb.co/8P5yHqW/m4a4.png" },
-    { name: "AWM", sub: "System Breach", price: 519, img: "https://i.ibb.co/5P5yHqW/awp.png" },
-    { name: "FAMAS", sub: "Fury", price: 490, img: "https://i.ibb.co/7P5yHqW/famas.png" }
+    // Пистолеты
+    { name: "Desert Eagle", sub: "Vermilion", price: 742, img: svgPistol },
+    { name: "G22", sub: "Nest", price: 543, img: svgPistol },
+    { name: "USP", sub: "Hologram", price: 562, img: svgPistol },
+    { name: "P350", sub: "Forest Spirit", price: 366, img: svgPistol },
+    { name: "Berettas", sub: "Contender", price: 260, img: svgPistol },
+    { name: "F/S", sub: "Venom", price: 182, img: svgPistol },
+    { name: "G22", sub: "Impulse", price: 6750, img: svgPistol },
+    { name: "P90", sub: "Burning King", price: 311, img: svgRifle }
   ];
 
   let currentPage = 0;
   const skinsPerPage = 8;
 
-  // Отрисовка магазина
   function renderShop() {
     const grid = document.getElementById('shopGrid');
     grid.innerHTML = '';
