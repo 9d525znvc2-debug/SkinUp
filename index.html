@@ -716,7 +716,7 @@ commit    = sha256(serverSeed) === serverHash</div></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // МАССИВ СКИНОВ С ОРИГИНАЛЬНЫМИ КАРТИНКАМИ (Сервер Steam)
+  // МАССИВ СКИНОВ (Картинки с официального сервера Steam, ничего вшивать не надо)
   const allSkins = [
     // Ножи
     { name: "Karambit", sub: "Doppler", price: 3000, img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRv6hz_1zS01SDeW8J4Y0l4LKnZK0YvL1J7HChqVKy_1K4sPth_wC5cZ00KrFpon2j1cJZz9wZ7fBJgY_c/360fx360f" },
@@ -755,10 +755,8 @@ document.addEventListener('DOMContentLoaded', () => {
     pageSkins.forEach(skin => {
       const card = document.createElement('div');
       card.className = 'skin-card';
-      
-      // Обработка ошибки загрузки картинки (если вдруг не прогрузится)
       card.innerHTML = `
-        <div class="skin-image"><img src="${skin.img}" alt="${skin.name}" onerror="this.style.display='none'"></div>
+        <div class="skin-image"><img src="${skin.img}" alt="${skin.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xNCA0bC0yIDItMy0zLTItMi01IDUgMiA1IDMgMyAyLTJ6Ii8+PHBhdGggZD0iTTE4IDExbC0xLjUgMS41LTEuNS0xLjUgMS41LTEuNSAxLjUgMS41eiIvPjxwYXRoIGQ9Ik0xNiAxM2wtMiAyLTEgMS0yIDIgMiAyIDIgMiAxLTFoMmwzLTN6Ii8+PC9zdmc+'"></div>
         <div class="skin-name">${skin.name}</div>
         <div class="skin-subname">${skin.sub}</div>
         <div class="skin-price">${skin.price} G</div>
