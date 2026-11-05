@@ -5,10 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>SkinUp</title>
 <style>
-  :root { --bg: #12161c; --panel: #1a2029; --text: #fff; --muted: #8b96a5; --yellow: #ffd12e; --orange: #ff7a00; --red: #eb4b4b; --green: #32d74b; --border: #30363d; }
+  :root {
+    --bg: #12161c; --panel: #1a2029; --text: #fff;
+    --muted: #8b96a5; --yellow: #ffd12e; --orange: #ff7a00;
+    --red: #eb4b4b; --green: #32d74b; --border: #30363d;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Roboto, sans-serif; display: flex; flex-direction: column; min-height: 100vh; padding-bottom: 80px; }
   
+  /* ШАПКА */
   .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #0d1117; border-bottom: 1px solid #1f2733; position: sticky; top: 0; z-index: 50; }
   .logo { font-size: 22px; font-weight: 800; } .logo span { color: var(--yellow); }
   .header-actions { display: flex; align-items: center; gap: 12px; }
@@ -19,9 +24,10 @@
   .avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--yellow); color: #000; display: flex; justify-content: center; align-items: center; font-weight: 800; }
   .username { font-size: 13px; font-weight: 600; }
   
+  /* ОСНОВА */
   .main { flex: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; max-width: 600px; margin: 0 auto; width: 100%; }
   .page-section { display: none; width: 100%; } .page-section.active { display: block; }
-
+  
   /* АПГРЕЙД */
   .up-tabs { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
   .up-tab { flex: 1; background: #161b22; border: 1px solid var(--border); color: var(--muted); padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 700; text-align: center; cursor: pointer; transition: 0.2s; }
@@ -35,7 +41,7 @@
   .up-slot .price { font-size: 12px; font-weight: bold; color: var(--yellow); }
   .up-arrow { font-size: 24px; color: var(--muted); }
   
-  .wheel { position: relative; width: 160px; height: 160px; border-radius: 50%; border: 8px solid #1f2733; margin: 20px auto; display: none; }
+  .wheel { position: relative; width: 160px; height: 160px; border-radius: 50%; border: 8px solid #1f2733; margin: 20px auto; display: block; }
   .circle { position: absolute; inset: 0; border-radius: 50%; background: #232b36; overflow: hidden; }
   .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 50%; background: linear-gradient(180deg, #ffea00 0%, var(--orange) 100%); transition: height 0.3s; }
   .wheel-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 2; width: 100%; }
@@ -43,12 +49,16 @@
   .arrow-container { position: absolute; inset: -8px; pointer-events: none; z-index: 5; transform-origin: center center; }
   .arrow { position: absolute; top: 0; left: 50%; width: 14px; height: 18px; margin-left: -7px; clip-path: polygon(0% 0%, 100% 0%, 50% 100%); background: #fff; }
   
+  .multipliers { display: flex; gap: 8px; width: 100%; margin-bottom: 20px; }
+  .mult-btn { flex: 1; background: #161b22; border: 1px solid var(--border); color: var(--muted); padding: 8px 0; border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; }
+  .mult-btn.active { background: var(--yellow); color: #000; border-color: var(--yellow); }
+  
   .action-area { position: relative; height: 60px; display: flex; width: 100%; gap: 10px; margin-bottom: 20px; }
   .btn-main { flex: 1; border-radius: 12px; border: none; font-size: 16px; font-weight: 700; color: #000; background: linear-gradient(90deg, #ffd12e 0%, #ff9d00 100%); cursor: pointer; text-transform: uppercase; }
   .btn-main:disabled { opacity: 0.5; filter: grayscale(0.5); }
   .btn-light { width: 60px; height: 60px; border-radius: 12px; background: #1f2733; border: 1px solid var(--border); color: var(--muted); font-size: 24px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
   .btn-light.active { color: var(--yellow); border-color: var(--yellow); box-shadow: 0 0 15px rgba(255,209,46,0.3); }
-
+  
   /* БУТЫЛОЧКА */
   .bottle-layout { display: flex; gap: 10px; width: 100%; margin-bottom: 15px; }
   .bets-panel, .chances-panel { flex: 1; background: #161b22; border: 1px solid var(--border); border-radius: 12px; padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -65,8 +75,9 @@
   .bets-sum-text { text-align: center; font-size: 14px; font-weight: bold; color: var(--yellow); grid-column: span 2; margin-top: 5px; }
   
   .bottle-center { display: flex; flex-direction: column; align-items: center; margin: 20px 0; }
-  .bottle-svg { width: 80px; height: 100px; fill: var(--yellow); filter: drop-shadow(0 0 20px rgba(255,209,46,0.5)); transition: transform 4s cubic-bezier(0.1, 0.8, 0.2, 1); }
-  .spin-btn-row { display: flex; gap: 10px; width: 100%; max-width: 300px; }
+  /* ОГРОМНАЯ БУТЫЛКА ЗДЕСЬ */
+  .bottle-svg { width: 140px; height: 180px; fill: var(--yellow); filter: drop-shadow(0 0 30px rgba(255,209,46,0.6)); transition: transform 4s cubic-bezier(0.1, 0.8, 0.2, 1); }
+  .spin-btn-row { display: flex; gap: 10px; width: 100%; max-width: 300px; margin-top: 20px; }
   .spin-btn { flex: 1; background: linear-gradient(90deg, #ffd12e 0%, #ff9d00 100%); color: #000; border: none; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; }
   .spin-btn:disabled { opacity: 0.5; filter: grayscale(0.5); }
 
@@ -166,15 +177,25 @@
       </div>
     </div>
 
+    <!-- КОЛЕСО ТЕПЕРЬ ВСЕГДА ВИДНО -->
     <div class="wheel" id="upWheel">
       <div class="circle">
-        <div class="fill" id="upFill"></div>
+        <div class="fill" id="upFill" style="height: 0%;"></div>
         <div class="wheel-text">
-          <div class="percent" id="upPercent">50%</div>
+          <div class="percent" id="upPercent">0%</div>
           <div class="chance">шанс</div>
         </div>
       </div>
       <div class="arrow-container" id="upArrow"><div class="arrow"></div></div>
+    </div>
+
+    <!-- МНОЖИТЕЛИ ТЕПЕРЬ ВСЕГДА ВИДНЫ -->
+    <div class="multipliers">
+      <button class="mult-btn" data-mult="1.3">x1.3</button>
+      <button class="mult-btn active" data-mult="2">x2</button>
+      <button class="mult-btn" data-mult="2.8">x2.8</button>
+      <button class="mult-btn" data-mult="4">x4</button>
+      <button class="mult-btn" data-mult="5">x5</button>
     </div>
 
     <div class="action-area" id="actionArea">
@@ -209,8 +230,9 @@
     </div>
 
     <div class="bottle-center">
+      <!-- ОГРОМНАЯ БУТЫЛКА -->
       <svg class="bottle-svg" id="bottleSvg" viewBox="0 0 24 24"><path d="M11 2h2v4.5l2.5 2.5c.4.4.5.9.5 1.5v9c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2v-9c0-.6.2-1.1.5-1.5L11 6.5V2zm-1 8.5v9h4v-9h-4z"/></svg>
-      <div class="spin-btn-row" style="margin-top:20px;">
+      <div class="spin-btn-row">
         <button class="spin-btn" id="spinBottleBtn" disabled>Крутить</button>
         <button class="btn-light active" id="bottleLightning" onclick="toggleLightning('bottle')">⚡</button>
       </div>
@@ -262,7 +284,6 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   
-  // Сокращенный список для теста (ты можешь добавить свои)
   const allSkins = [
     { name: "Akimbo Uzi", sub: "Overdrive Red", price: 55.00, img: "images/akimbo-uzi-overdrive-red.png" },
     { name: "F/S", sub: "Venom", price: 55.77, img: "images/fs-venom.png" },
@@ -288,6 +309,30 @@ document.addEventListener('DOMContentLoaded', () => {
   if (savedSession && state.users[savedSession]) state.currentUser = savedSession;
 
   function saveUsers() { localStorage.setItem('skinup_users', JSON.stringify(state.users)); }
+
+  // Звуки
+  let audioCtx = null;
+  function initAudio() { if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+  function playTick() {
+    if(!audioCtx) return;
+    const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+  }
+  function playWin() {
+    if(!audioCtx) return;
+    [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+      setTimeout(() => {
+        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'triangle'; osc.frequency.value = f;
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+      }, i * 100);
+    });
+  }
 
   function updateUI() {
     if (state.currentUser) {
@@ -345,14 +390,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (state.upBet && state.upTarget) {
-      wheel.style.display = 'block';
       let chance = (state.upBet.price / state.upTarget.price) * 100;
       if (chance > 100) chance = 100;
       document.getElementById('upPercent').textContent = `${chance.toFixed(1)}%`;
       document.getElementById('upFill').style.height = `${chance}%`;
       btn.disabled = state.isSpinningUp;
     } else {
-      wheel.style.display = 'none';
+      document.getElementById('upPercent').textContent = `0%`;
+      document.getElementById('upFill').style.height = `0%`;
       btn.disabled = true;
     }
   }
@@ -540,27 +585,40 @@ document.addEventListener('DOMContentLoaded', () => {
     closeModal('buyModal');
   };
 
-  // --- КНОПКИ АПГРЕЙДА И БУТЫЛКИ ---
+  // --- КНОПКИ ---
   document.getElementById('upgradeBtn').addEventListener('click', () => {
     if (state.isSpinningUp || !state.upBet || !state.upTarget) return;
+    initAudio();
     state.isSpinningUp = true;
     
     let chance = (state.upBet.price / state.upTarget.price) * 100;
     if (chance > 100) chance = 100;
     const isWin = Math.random() * 100 < chance;
-    const duration = state.isFastUp ? 500 : 2500;
+    const duration = state.isFastUp ? 500 : 3000;
 
     const arrow = document.getElementById('upArrow');
-    arrow.style.transition = `transform ${duration}ms ease-out`;
-    arrow.style.transform = `rotate(${isWin ? 180 : 0}deg)`;
+    arrow.style.transition = `transform ${duration}ms cubic-bezier(0.1, 0.8, 0.2, 1)`;
+    
+    const spins = state.isFastUp ? 2 : 5;
+    arrow.style.transform = `rotate(${spins * 360 + (isWin ? 180 : 0)}deg)`;
     
     document.getElementById('upgradeBtn').textContent = 'Крутим...';
     
+    // Тики
+    let ticks = 0;
+    const tickInterval = setInterval(() => {
+      if(!state.isFastUp) playTick();
+      ticks++;
+      if (ticks > (state.isFastUp ? 2 : 20)) clearInterval(tickInterval);
+    }, 100);
+
     setTimeout(() => {
+      clearInterval(tickInterval);
       arrow.style.transition = 'none';
       arrow.style.transform = 'rotate(0deg)';
       
       if (isWin) {
+        playWin();
         state.users[state.currentUser].inventory.push(state.upTarget);
         alert(`Победа! Получен ${state.upTarget.name}`);
       } else {
@@ -579,6 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('spinBottleBtn').addEventListener('click', () => {
     if (state.isSpinningBtl || state.bottleBet.length !== 6) return;
+    initAudio();
     state.isSpinningBtl = true;
     
     const totalBet = state.bottleBet.reduce((s, i) => s + i.price, 0);
@@ -605,7 +664,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const wonSkin = state.bottleSlots[winIndex];
       const isWin = wonSkin.price > totalBet;
       
-      if (isWin) state.users[state.currentUser].inventory.push(wonSkin);
+      if (isWin) {
+        playWin();
+        state.users[state.currentUser].inventory.push(wonSkin);
+      }
       
       alert(isWin ? `ПОБЕДА! Выиграли ${wonSkin.name}` : `ПОРАЖЕНИЕ. Выпал ${wonSkin.name}`);
       
