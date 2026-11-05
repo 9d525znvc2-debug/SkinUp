@@ -230,8 +230,8 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   
-  // ФИНАЛЬНЫЙ СПИСОК (Удалены все 87 скинов без картинок, включая все модели)
-  const allSkins = [
+  // 1. ВСЕ СКИНЫ (база)
+  let allSkins = [
     { name: "Akimbo Uzi", sub: "Overdrive Red", price: 55.00, rarity: "arcane", img: "images/akimbo-uzi-overdrive-red.png" },
     { name: "F/S", sub: "Venom", price: 55.77, rarity: "arcane", img: "images/fs-venom.png" },
     { name: "M16", sub: "Shogun Stripes", price: 76.00, rarity: "arcane", img: "images/m16-shogun-stripes.png" },
@@ -507,6 +507,104 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "M4A1", sub: "Year Of The Tiger", price: 149999.00, rarity: "arcane", img: "images/m4a1-year-of-the-tiger.png" }
   ];
 
+  // 2. ЧЕРНЫЙ СПИСОК (87 скинов, которые нужно удалить)
+  const bannedSkins = [
+    { name: "Kunai", sub: "Fire Horse" },
+    { name: "jKommando", sub: "Prism" },
+    { name: "M4A1", sub: "PawPaw" },
+    { name: "Kunai", sub: "Glitch" },
+    { name: "Stiletto", sub: "Damascus" },
+    { name: "Scorpion", sub: "Magnallium" },
+    { name: "Kukri", sub: "Cascade" },
+    { name: "Dual Daggers", sub: "Demonic St..." },
+    { name: "Fang", sub: "Wavesong" },
+    { name: "Flip", sub: "Magnallium" },
+    { name: "Stiletto", sub: "Viper" },
+    { name: "jKommando", sub: "Plasma" },
+    { name: "Sting", sub: "Pelagia" },
+    { name: "Stiletto", sub: "Tie Dye" },
+    { name: "Sting", sub: "Fleck" },
+    { name: "Sting", sub: "Oil Sheen" },
+    { name: "Fang", sub: "Ice Storm" },
+    { name: "Stiletto", sub: "Dark Shiver" },
+    { name: "Tanto", sub: "Flow" },
+    { name: "Fang", sub: "Relic" },
+    { name: "Fang", sub: "Saphira" },
+    { name: "Sting", sub: "Corrode" },
+    { name: "Stiletto", sub: "Flux" },
+    { name: "jKommando", sub: "Blight" },
+    { name: "Sting", sub: "Contender" },
+    { name: "Fang", sub: "Serpent" },
+    { name: "Tanto", sub: "Year Of The Tiger" },
+    { name: "Tanto", sub: "Transistor" },
+    { name: "jKommando", sub: "Engraving" },
+    { name: "Sting", sub: "Carmine Thorns" },
+    { name: "Butterfly", sub: "Wild West" },
+    { name: "Fang", sub: "Lapis Lazuli" },
+    { name: "Butterfly", sub: "Ripple" },
+    { name: "Flip", sub: "Dragon Glass" },
+    { name: "Butterfly", sub: "Glitch" },
+    { name: "jKommando", sub: "Floral" },
+    { name: "Butterfly", sub: "Legacy" },
+    { name: "Kunai", sub: "Bone" },
+    { name: "Butterfly", sub: "Saphira" },
+    { name: "Butterfly", sub: "Dragon Glass" },
+    { name: "Karambit", sub: "White Rose" },
+    { name: "Karambit", sub: "Hologram" },
+    { name: "Tanto", sub: "Blossom" },
+    { name: "AWM", sub: "Vampire" },
+    { name: "Mantis", sub: "Yokai" },
+    { name: "Karambit", sub: "Year Of The Tiger" },
+    { name: "jKommando", sub: "Frozen" },
+    { name: "Mantis", sub: "Poison" },
+    { name: "AKR", sub: "Orchid" },
+    { name: "Karambit", sub: "Reis" },
+    { name: "TEC-9", sub: "Glitch" },
+    { name: "Karambit", sub: "Claw" },
+    { name: "M9 Bayonet", sub: "Frozen" },
+    { name: "Karambit", sub: "Jade Stone" },
+    { name: "AWM", sub: "2 Years Red" },
+    { name: "F/S", sub: "Poison" },
+    { name: "M9 Bayonet", sub: "Blue Blood" },
+    { name: "Mantis", sub: "Ink Wash" },
+    { name: "AWM", sub: "Moonstone" },
+    { name: "Karambit", sub: "Universe" },
+    { name: "M9 Bayonet", sub: "Scratch" },
+    { name: "AWM", sub: "Ravage" },
+    { name: "M9 Bayonet", sub: "Citrine" },
+    { name: "M4A1", sub: "Jade Stone" },
+    { name: "M9 Bayonet", sub: "Treasure Hun..." },
+    { name: "M4", sub: "Wildstyle" },
+    { name: "M40", sub: "Auric Bloom" },
+    { name: "M9 Bayonet", sub: "Lincoln" },
+    { name: "M9 Bayonet", sub: "Sketch" },
+    { name: "Butterfly", sub: "Cold Flame" },
+    { name: "Karambit", sub: "Snow Camo" },
+    { name: "M9 Bayonet", sub: "Digital Burst" },
+    { name: "M9 Bayonet", sub: "Twilight" },
+    { name: "M9 Bayonet", sub: "Poison" },
+    { name: "Mallard", sub: "Phantom Pack" },
+    { name: "M9 Bayonet", sub: "Moonstone" },
+    { name: "USP", sub: "Mirage Menace" },
+    { name: "Butterfly", sub: "Jade Stone" },
+    { name: "MAC10", sub: "Argo" },
+    { name: "AKR12", sub: "Riot" },
+    { name: "Mantis", sub: "Impact" },
+    { name: "AKR", sub: "Treasure Hunter" },
+    { name: "M4", sub: "Dire Wolf" },
+    { name: "M9 Bayonet", sub: "Ancient" },
+    { name: "Mantis", sub: "Wildstyle" },
+    { name: "USP", sub: "Top Secret" },
+    { name: "G22", sub: "Frozen" },
+    { name: "Butterfly", sub: "Arcane Surge" }
+  ];
+
+  // 3. ФИЛЬТРАЦИЯ (автоматически удаляет всё из черного списка)
+  allSkins = allSkins.filter(skin => {
+    const isBanned = bannedSkins.some(banned => banned.name === skin.name && banned.sub === skin.sub);
+    return !isBanned;
+  });
+
   // СОСТОЯНИЕ
   let state = {
     currentUser: null,
@@ -619,7 +717,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('invContent').style.display = tab === 'inv' ? 'block' : 'none';
     document.getElementById('shopContent').style.display = tab === 'shop' ? 'block' : 'none';
     
-    // Показываем фильтры только в магазине
     filtersContainer.style.display = tab === 'shop' ? 'flex' : 'none';
     
     renderItems();
@@ -656,21 +753,17 @@ document.addEventListener('DOMContentLoaded', () => {
       // МАГАЗИН: Фильтрация и Сортировка
       let items = [...allSkins];
       
-      // Фильтр по поиску
       if (search) items = items.filter(i => i.name.toLowerCase().includes(search) || i.sub.toLowerCase().includes(search));
       
-      // Фильтр по редкости
       const selectedRarity = rarityFilter.value;
       if (selectedRarity !== 'all') {
         items = items.filter(i => i.rarity === selectedRarity);
       }
 
-      // Сортировка по цене
       const selectedPrice = priceFilter.value;
       if (selectedPrice === 'asc') items.sort((a, b) => a.price - b.price);
       else if (selectedPrice === 'desc') items.sort((a, b) => b.price - a.price);
 
-      // Отрисовка всех без пагинации
       items.forEach(skin => {
         const card = document.createElement('div');
         card.className = 'skin-card';
