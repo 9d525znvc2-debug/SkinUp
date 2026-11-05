@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SkinUp - Глобальное обновление</title>
+<title>SkinUp - Финальная версия</title>
 <style>
   :root {
     --bg-color: #12161c; --panel-bg: #1a2029; --text-main: #ffffff;
@@ -43,20 +43,25 @@
   .case-name { font-size: 14px; font-weight: 600; color: #fff; }
 
   /* АПГРЕЙД */
-  .wheel-container { position: relative; width: 220px; height: 220px; margin-bottom: 20px; border-radius: 50%; border: 10px solid #1f2733; }
-  .circle { position: absolute; inset: 0; border-radius: 50%; background: #232b36; overflow: hidden; }
-  .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 50%; background: linear-gradient(180deg, #ffea00 0%, var(--orange) 100%); transition: height 0.3s; }
-  .wheel-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 2; width: 100%; }
-  .wheel-text .percent { font-size: 32px; font-weight: 800; color: #fff; } .wheel-text .chance { font-size: 11px; } .wheel-text .win-amount { font-size: 13px; font-weight: 600; margin-top: 4px; }
-  .arrow-container { position: absolute; inset: -10px; pointer-events: none; z-index: 5; transform-origin: center center; }
-  .arrow { position: absolute; top: 0; left: 50%; width: 16px; height: 20px; margin-left: -8px; clip-path: polygon(0% 0%, 100% 0%, 50% 100%); background: #fff; }
+  .upgrade-container { width: 100%; display: flex; flex-direction: column; align-items: center; }
+  .up-tabs { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; max-width: 500px; }
+  .up-tab { flex: 1; background: #161b22; border: 1px solid var(--border-color); color: var(--text-muted); padding: 12px; border-radius: 12px; font-size: 15px; font-weight: 700; text-align: center; cursor: pointer; transition: 0.2s; }
+  .up-tab.active { background: var(--yellow); color: #000; border-color: var(--yellow); }
   
-  .controls { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; max-width: 400px; }
-  .input-row { display: flex; justify-content: center; align-items: center; gap: 12px; font-size: 14px; color: var(--text-muted); }
-  .chance-display { font-size: 18px; font-weight: 800; color: var(--yellow); }
-  .percent-slider { width: 100%; accent-color: var(--yellow); }
-  .multipliers { display: flex; gap: 6px; }
-  .mult-btn { flex: 1; background: #161b22; border: 1px solid var(--border-color); color: #c9d1d9; padding: 8px 0; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .upgrade-battleground { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 600px; margin-bottom: 20px; gap: 20px; }
+  .up-slot { flex: 1; background: #161b22; border: 2px dashed var(--border-color); border-radius: 12px; min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 10px; }
+  .up-slot.active-target { border-color: var(--yellow); border-style: solid; }
+  .up-slot-img { max-width: 100%; max-height: 80px; object-fit: contain; }
+  .up-slot-name { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+  .up-slot-price { font-size: 14px; font-weight: bold; color: var(--yellow); }
+  
+  .upgrade-arrow { font-size: 30px; color: var(--text-muted); }
+  
+  .up-center-controls { display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; max-width: 400px; margin-bottom: 20px; }
+  .chance-big { font-size: 28px; font-weight: 900; color: var(--yellow); }
+  
+  .multipliers { display: flex; gap: 8px; width: 100%; }
+  .mult-btn { flex: 1; background: #161b22; border: 1px solid var(--border-color); color: #c9d1d9; padding: 10px 0; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; }
   .mult-btn.active { background: var(--yellow); color: #000; border-color: var(--yellow); }
   
   .action-area { position: relative; height: 60px; display: flex; max-width: 400px; width: 100%; gap: 10px; }
@@ -71,39 +76,35 @@
   .notification.win { background: rgba(50, 215, 75, 0.1); border: 1px solid var(--green); color: var(--green); }
   .notification.lose { background: rgba(255, 59, 59, 0.1); border: 1px solid var(--red); color: var(--red); }
 
-  /* СТАВКИ В АПГРЕЙДЕ */
-  .bets-slots { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
-  .bet-slot { width: 60px; height: 60px; border-radius: 8px; background: #161b22; border: 1px dashed var(--border-color); display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; }
-  .bet-slot img { max-width: 80%; max-height: 80%; object-fit: contain; }
-  .bet-slot.filled { border-style: solid; border-color: var(--yellow); }
-  .bet-slot .remove-btn { position: absolute; top: -5px; right: -5px; background: var(--red); color: #fff; border: none; border-radius: 50%; width: 16px; height: 16px; font-size: 10px; cursor: pointer; display: none; }
-  .bet-slot.filled .remove-btn { display: block; }
-
   /* БУТЫЛОЧКА */
-  .bottle-wrapper { position: relative; width: 100%; max-width: 400px; height: 400px; margin: 20px auto; display: flex; justify-content: center; align-items: center; }
-  .bottle-center-svg { width: 100px; height: 150px; fill: #ffd12e; filter: drop-shadow(0 0 20px rgba(255,209,46,0.5)); z-index: 10; transition: transform 4s cubic-bezier(0.1, 0.8, 0.2, 1); }
-  
-  .bottle-item { position: absolute; width: 80px; height: 90px; background: rgba(26,32,41,0.8); border: 1px solid var(--border-color); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; transition: all 0.3s; padding: 5px;}
-  .bottle-item img { max-width: 50px; max-height: 40px; object-fit: contain; margin-bottom: 2px; }
-  .bottle-item .b-price { font-size: 10px; color: var(--yellow); font-weight: bold; }
-  .bottle-item .b-chance { font-size: 11px; font-weight: bold; }
-  .bottle-item.win .b-chance { color: var(--green); }
-  .bottle-item.lose .b-chance { color: var(--red); }
-  
-  /* 6 ПОЗИЦИЙ ВОКРУГ БУТЫЛКИ */
-  .pos-1 { top: 0; left: 50%; transform: translateX(-50%); }
-  .pos-2 { top: 25%; right: 0; }
-  .pos-3 { bottom: 25%; right: 0; }
-  .pos-4 { bottom: 0; left: 50%; transform: translateX(-50%); }
-  .pos-5 { bottom: 25%; left: 0; }
-  .pos-6 { top: 25%; left: 0; }
+  .bottle-container { width: 100%; display: flex; flex-direction: column; align-items: center; }
+  .bottle-layout { display: flex; gap: 20px; width: 100%; max-width: 800px; margin-bottom: 20px; }
+  .bets-panel { flex: 1; background: #161b22; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; }
+  .bets-panel h3 { font-size: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; }
+  .bets-slots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .bet-slot-mini { height: 80px; border-radius: 8px; background: #12161c; border: 1px dashed var(--border-color); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+  .bet-slot-mini img { max-width: 60px; max-height: 40px; object-fit: contain; }
+  .bet-slot-mini .b-price { font-size: 10px; color: var(--yellow); }
+  .bet-slot-mini.filled { border-style: solid; border-color: var(--yellow); }
 
-  .spin-area { display: flex; gap: 10px; width: 100%; max-width: 400px; margin-bottom: 20px; }
+  .chances-panel { flex: 1; background: #161b22; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .chance-box { height: 80px; border-radius: 8px; background: #12161c; border: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .chance-box img { max-width: 60px; max-height: 40px; object-fit: contain; }
+  .chance-box .c-percent { font-size: 12px; font-weight: bold; }
+  .chance-box.win .c-percent { color: var(--green); }
+  .chance-box.lose .c-percent { color: var(--red); }
+
+  .bottle-center-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; position: relative; width: 100%; max-width: 400px; }
+  .bottle-svg-wrapper { position: relative; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center; }
+  .bottle-svg { width: 100px; height: 120px; fill: #ffd12e; filter: drop-shadow(0 0 20px rgba(255,209,46,0.5)); transition: transform 4s cubic-bezier(0.1, 0.8, 0.2, 1); }
+  
+  .spin-btn-row { display: flex; gap: 10px; width: 100%; margin-top: 20px;}
   .spin-bottle-btn { flex: 1; background: linear-gradient(90deg, #ffd12e 0%, #ff9d00 100%); color: #000; border: none; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
   .spin-bottle-btn:disabled { opacity: 0.5; filter: grayscale(0.5); }
 
-  /* МАГАЗИН (ОБЩИЙ ДЛЯ АПГРЕЙДА И БУТЫЛКИ) */
-  .shop-section-wrapper { width: 100%; background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; margin-top: 20px; }
+  /* МАГАЗИН (ОБЩИЙ) */
+  .shop-section-wrapper { width: 100%; background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; margin-top: 20px; display: none; }
+  .shop-section-wrapper.active { display: block; }
   .inv-tabs { display: flex; gap: 10px; margin-bottom: 15px; background: #12161c; padding: 4px; border-radius: 8px; }
   .inv-tab { flex: 1; text-align: center; padding: 10px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 6px; }
   .inv-tab.active { background: #30363d; color: #fff; }
@@ -115,7 +116,7 @@
   .search-box { display: flex; align-items: center; background: #12161c; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 15px; margin-bottom: 15px; }
   .search-box input { background: transparent; border: none; color: #fff; width: 100%; outline: none; }
   
-  .skin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; min-height: 250px; }
+  .skin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; min-height: 250px; }
   .skin-card { background: #161b22; border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; text-align: left; display: flex; flex-direction: column; position: relative; cursor: pointer; }
   .skin-card::after { content: ''; position: absolute; bottom: 0; left: 10px; right: 10px; height: 2px; background: #ff3b3b; border-radius: 2px; }
   .skin-image { height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
@@ -216,47 +217,53 @@
 
   <!-- АПГРЕЙД -->
   <main class="main-content page-section active" id="page-upgrade">
-    <h1 class="title">Апгрейдер скинов</h1>
+    <h1 class="title">Апгрейдер</h1>
     
-    <div class="wheel-container">
-      <div class="circle"><div class="fill" id="fillEl"></div><div class="wheel-text"><div class="percent" id="percentEl">50%</div><div class="chance">шанс успеха</div><div class="win-amount" id="winAmountEl">Выигрыш: 200 G</div></div></div>
-      <div class="arrow-container" id="arrowContainer"><div class="arrow"></div></div>
-    </div>
-    
-    <div class="controls">
-      <div class="input-row"><span>Шанс:</span><span class="chance-display" id="chanceDisplay">50 %</span></div>
-      <input type="range" class="percent-slider" id="percentSlider" min="10" max="80" value="50" oninput="updateUpgradePercent(this.value)">
-      
-      <div class="multipliers">
-        <button class="mult-btn" data-mult="1.3">x1.3</button><button class="mult-btn active" data-mult="2">x2</button><button class="mult-btn" data-mult="2.8">x2.8</button><button class="mult-btn" data-mult="4">x4</button><button class="mult-btn" data-mult="5">x5</button>
-      </div>
-      
-      <div class="bets-slots" id="upgradeBets">
-        <!-- Слоты для скинов -->
+    <div class="upgrade-container">
+      <div class="up-tabs">
+        <div class="up-tab active" id="tabBetBtn" onclick="switchUpTab('bet')">Ваш инвентарь</div>
+        <div class="up-tab" id="tabTargetBtn" onclick="switchUpTab('target')">Прокачать до</div>
       </div>
 
-      <div class="action-area" id="actionArea">
-        <button class="action-btn" id="upgradeBtn" disabled>Апгрейд</button>
-        <button class="lightning-btn active" id="upgradeLightning" onclick="toggleLightning('upgrade')">⚡</button>
-        <div class="notification" id="notificationEl"></div>
+      <div class="upgrade-battleground">
+        <div class="up-slot" id="betSlot" onclick="switchUpTab('bet')">
+          <span style="color:var(--text-muted); font-size:12px;">Выберите скин</span>
+        </div>
+        <div class="upgrade-arrow">➜</div>
+        <div class="up-slot" id="targetSlot" onclick="switchUpTab('target')">
+          <span style="color:var(--text-muted); font-size:12px;">Выберите цель</span>
+        </div>
+      </div>
+
+      <div class="up-center-controls" id="upgradeControls" style="display: none;">
+        <div class="chance-big" id="upChance">0%</div>
+        <div class="multipliers" style="display:none;">
+          <!-- Скрыто, так как шанс считается от цены -->
+        </div>
+        <div class="action-area" id="actionArea">
+          <button class="action-btn" id="upgradeBtn">Прокачать</button>
+          <button class="lightning-btn active" id="upgradeLightning" onclick="toggleLightning('upgrade')">⚡</button>
+          <div class="notification" id="notificationEl"></div>
+        </div>
       </div>
     </div>
 
     <!-- МАГАЗИН / ИНВЕНТАРЬ В АПГРЕЙДЕ -->
-    <div class="shop-section-wrapper">
+    <div class="shop-section-wrapper active" id="shopUpgrade">
       <div class="inv-tabs">
-        <div class="inv-tab active" id="tabInvBtnUp" onclick="switchShopTab('inv', 'upgrade')">Мой инвентарь</div>
-        <div class="inv-tab" id="tabShopBtnUp" onclick="switchShopTab('shop', 'upgrade')">Магазин</div>
+        <div class="inv-tab active" id="invTabBtnUp" onclick="switchShopTab('inv', 'upgrade')">Мой инвентарь</div>
+        <div class="inv-tab" id="shopTabBtnUp" onclick="switchShopTab('shop', 'upgrade')">Магазин</div>
       </div>
-      <div class="search-box"><span style="margin-right:10px; color:#8b96a5;">🔍</span><input type="text" placeholder="Поиск..." id="searchInputUp" oninput="renderItems('upgrade')"></div>
       
-      <div class="filters-row" id="filtersUpgrade">
+      <div class="search-box" id="searchBoxUp"><span style="margin-right:10px; color:#8b96a5;">🔍</span><input type="text" placeholder="Поиск..." id="searchInputUp" oninput="renderItems('upgrade')"></div>
+      
+      <div class="filters-row" id="filtersUpgrade" style="display: none;">
         <div class="filter-group"><label class="filter-label">Цена от</label><input type="number" class="filter-input" id="priceMinUp" placeholder="0" oninput="renderItems('upgrade')"></div>
         <div class="filter-group"><label class="filter-label">до</label><input type="number" class="filter-input" id="priceMaxUp" placeholder="∞" oninput="renderItems('upgrade')"></div>
       </div>
 
-      <div id="invContentUp" style="display: none;"><div class="skin-grid" id="invGridUp"></div></div>
-      <div id="shopContentUp"><div class="skin-grid" id="shopGridUp"></div></div>
+      <div id="invContentUp"><div class="skin-grid" id="invGridUp"></div></div>
+      <div id="shopContentUp" style="display: none;"><div class="skin-grid" id="shopGridUp"></div></div>
     </div>
   </main>
 
@@ -264,36 +271,43 @@
   <main class="main-content page-section" id="page-bottle">
     <h1 class="title">Бутылочка</h1>
     
-    <div class="bottle-wrapper">
-      <div class="bottle-item pos-1" id="b-slot-1"></div>
-      <div class="bottle-item pos-2" id="b-slot-2"></div>
-      <div class="bottle-item pos-3" id="b-slot-3"></div>
-      <div class="bottle-item pos-4" id="b-slot-4"></div>
-      <div class="bottle-item pos-5" id="b-slot-5"></div>
-      <div class="bottle-item pos-6" id="b-slot-6"></div>
-      
-      <svg class="bottle-center-svg" id="bottleSvg" viewBox="0 0 24 24"><path d="M11 2h2v4.5l2.5 2.5c.4.4.5.9.5 1.5v9c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2v-9c0-.6.2-1.1.5-1.5L11 6.5V2zm-1 8.5v9h4v-9h-4z"/></svg>
-    </div>
-
-    <div class="spin-area">
-      <button class="spin-bottle-btn" id="spinBottleBtn" disabled>Крутить</button>
-      <button class="lightning-btn active" id="bottleLightning" onclick="toggleLightning('bottle')">⚡</button>
-    </div>
-
-    <div class="shop-section-wrapper">
-      <div class="inv-tabs">
-        <div class="inv-tab active" id="tabInvBtnBtl" onclick="switchShopTab('inv', 'bottle')">Мой инвентарь</div>
-        <div class="inv-tab" id="tabShopBtnBtl" onclick="switchShopTab('shop', 'bottle')">Магазин</div>
+    <div class="bottle-container">
+      <div class="bottle-layout">
+        <div class="bets-panel">
+          <h3>Ставка <span id="betsCount">0/6</span></h3>
+          <div class="bets-slots-grid" id="betsSlots">
+            <!-- Слоты -->
+          </div>
+          <div style="text-align:center; margin-top:10px; font-weight:bold; color:var(--yellow);">Сумма: <span id="betsSum">0</span> G</div>
+        </div>
+        <div class="chances-panel" id="chancesPanel">
+          <!-- Шансы -->
+        </div>
       </div>
-      <div class="search-box"><span style="margin-right:10px; color:#8b96a5;">🔍</span><input type="text" placeholder="Поиск..." id="searchInputBtl" oninput="renderItems('bottle')"></div>
 
-      <div class="filters-row" id="filtersBottle">
+      <div class="bottle-center-area">
+        <div class="bottle-svg-wrapper">
+          <svg class="bottle-svg" id="bottleSvg" viewBox="0 0 24 24"><path d="M11 2h2v4.5l2.5 2.5c.4.4.5.9.5 1.5v9c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2v-9c0-.6.2-1.1.5-1.5L11 6.5V2zm-1 8.5v9h4v-9h-4z"/></svg>
+        </div>
+        <div class="spin-btn-row">
+          <button class="spin-bottle-btn" id="spinBottleBtn" disabled>Крутить</button>
+          <button class="lightning-btn active" id="bottleLightning" onclick="toggleLightning('bottle')">⚡</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-section-wrapper active" id="shopBottle">
+      <div class="inv-tabs">
+        <div class="inv-tab active" id="invTabBtnBtl" onclick="switchShopTab('inv', 'bottle')">Мой инвентарь</div>
+        <div class="inv-tab" id="shopTabBtnBtl" onclick="switchShopTab('shop', 'bottle')">Магазин</div>
+      </div>
+      <div class="search-box" id="searchBoxBtl"><span style="margin-right:10px; color:#8b96a5;">🔍</span><input type="text" placeholder="Поиск..." id="searchInputBtl" oninput="renderItems('bottle')"></div>
+      <div class="filters-row" id="filtersBottle" style="display: none;">
         <div class="filter-group"><label class="filter-label">Цена от</label><input type="number" class="filter-input" id="priceMinBtl" placeholder="0" oninput="renderItems('bottle')"></div>
         <div class="filter-group"><label class="filter-label">до</label><input type="number" class="filter-input" id="priceMaxBtl" placeholder="∞" oninput="renderItems('bottle')"></div>
       </div>
-
-      <div id="invContentBtl" style="display: none;"><div class="skin-grid" id="invGridBtl"></div></div>
-      <div id="shopContentBtl"><div class="skin-grid" id="shopGridBtl"></div></div>
+      <div id="invContentBtl"><div class="skin-grid" id="invGridBtl"></div></div>
+      <div id="shopContentBtl" style="display: none;"><div class="skin-grid" id="shopGridBtl"></div></div>
     </div>
   </main>
 
@@ -314,7 +328,6 @@
     </div>
   </div>
 
-  <!-- МОДАЛКА ПОКУПКИ -->
   <div class="modal-overlay" id="buyModal">
     <div class="modal">
       <div class="buy-modal-img" id="buyModalImgContainer"></div>
@@ -331,7 +344,6 @@
     </div>
   </div>
 
-  <!-- МОДАЛКА ВЫИГРЫША БУТЫЛКИ -->
   <div class="modal-overlay" id="winModal">
     <div class="modal">
       <div class="win-modal-img" id="winModalImg"></div>
@@ -628,27 +640,29 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "M4A1", sub: "Year Of The Tiger", price: 149999.00, img: "images/m4a1-year-of-the-tiger.png" }
   ];
 
-  // 2. ЧЕРНЫЙ СПИСОК (Очистка)
   const bannedSkins = [
     { name: "Kunai", sub: "Fire Horse" }, { name: "jKommando", sub: "Prism" }, { name: "M4A1", sub: "PawPaw" }, { name: "Kunai", sub: "Glitch" }, { name: "Stiletto", sub: "Damascus" }, { name: "Scorpion", sub: "Magnallium" }, { name: "Kukri", sub: "Cascade" }, { name: "Dual Daggers", sub: "Demonic St..." }, { name: "Fang", sub: "Wavesong" }, { name: "Flip", sub: "Magnallium" }, { name: "Stiletto", sub: "Viper" }, { name: "jKommando", sub: "Plasma" }, { name: "Sting", sub: "Pelagia" }, { name: "Stiletto", sub: "Tie Dye" }, { name: "Sting", sub: "Fleck" }, { name: "Sting", sub: "Oil Sheen" }, { name: "Fang", sub: "Ice Storm" }, { name: "Stiletto", sub: "Dark Shiver" }, { name: "Tanto", sub: "Flow" }, { name: "Fang", sub: "Relic" }, { name: "Fang", sub: "Saphira" }, { name: "Sting", sub: "Corrode" }, { name: "Stiletto", sub: "Flux" }, { name: "jKommando", sub: "Blight" }, { name: "Sting", sub: "Contender" }, { name: "Fang", sub: "Serpent" }, { name: "Tanto", sub: "Year Of The Tiger" }, { name: "Tanto", sub: "Transistor" }, { name: "jKommando", sub: "Engraving" }, { name: "Sting", sub: "Carmine Thorns" }, { name: "Butterfly", sub: "Wild West" }, { name: "Fang", sub: "Lapis Lazuli" }, { name: "Butterfly", sub: "Ripple" }, { name: "Flip", sub: "Dragon Glass" }, { name: "Butterfly", sub: "Glitch" }, { name: "jKommando", sub: "Floral" }, { name: "Butterfly", sub: "Legacy" }, { name: "Kunai", sub: "Bone" }, { name: "Butterfly", sub: "Saphira" }, { name: "Butterfly", sub: "Dragon Glass" }, { name: "Karambit", sub: "White Rose" }, { name: "Karambit", sub: "Hologram" }, { name: "Tanto", sub: "Blossom" }, { name: "AWM", sub: "Vampire" }, { name: "Mantis", sub: "Yokai" }, { name: "Karambit", sub: "Year Of The Tiger" }, { name: "jKommando", sub: "Frozen" }, { name: "Mantis", sub: "Poison" }, { name: "AKR", sub: "Orchid" }, { name: "Karambit", sub: "Reis" }, { name: "TEC-9", sub: "Glitch" }, { name: "Karambit", sub: "Claw" }, { name: "M9 Bayonet", sub: "Frozen" }, { name: "Karambit", sub: "Jade Stone" }, { name: "AWM", sub: "2 Years Red" }, { name: "F/S", sub: "Poison" }, { name: "M9 Bayonet", sub: "Blue Blood" }, { name: "Mantis", sub: "Ink Wash" }, { name: "AWM", sub: "Moonstone" }, { name: "Karambit", sub: "Universe" }, { name: "M9 Bayonet", sub: "Scratch" }, { name: "AWM", sub: "Ravage" }, { name: "M9 Bayonet", sub: "Citrine" }, { name: "M4A1", sub: "Jade Stone" }, { name: "M9 Bayonet", sub: "Treasure Hun..." }, { name: "M4", sub: "Wildstyle" }, { name: "M40", sub: "Auric Bloom" }, { name: "M9 Bayonet", sub: "Lincoln" }, { name: "M9 Bayonet", sub: "Sketch" }, { name: "Butterfly", sub: "Cold Flame" }, { name: "Karambit", sub: "Snow Camo" }, { name: "M9 Bayonet", sub: "Digital Burst" }, { name: "M9 Bayonet", sub: "Twilight" }, { name: "M9 Bayonet", sub: "Poison" }, { name: "Mallard", sub: "Phantom Pack" }, { name: "M9 Bayonet", sub: "Moonstone" }, { name: "USP", sub: "Mirage Menace" }, { name: "Butterfly", sub: "Jade Stone" }, { name: "MAC10", sub: "Argo" }, { name: "AKR12", sub: "Riot" }, { name: "Mantis", sub: "Impact" }, { name: "AKR", sub: "Treasure Hunter" }, { name: "M4", sub: "Dire Wolf" }, { name: "M9 Bayonet", sub: "Ancient" }, { name: "Mantis", sub: "Wildstyle" }, { name: "USP", sub: "Top Secret" }, { name: "G22", sub: "Frozen" }, { name: "Butterfly", sub: "Arcane Surge" }, { name: "Stiletto", sub: "Ascend" }, { name: "AKR", sub: "Jade Stone" }, { name: "M4", sub: "Sunset" }, { name: "Butterfly", sub: "Gambit" }, { name: "AKR", sub: "La Reina" }, { name: "AKR", sub: "Reis" }, { name: "MP7", sub: "R1NA" }, { name: "Stiletto", sub: "Empyrean" }, { name: "AKR", sub: "Treasure Hunter" }, { name: "AKR12", sub: "Speedrun" }, { name: "Mantis", sub: "Glacier" }, { name: "Desert Eagle", sub: "Jade Stone" }
   ];
   allSkins = allSkins.filter(skin => !bannedSkins.some(banned => banned.name === skin.name && banned.sub === skin.sub));
 
-  // --- 3. СОСТОЯНИЕ И АВТО-ЛОГИН ---
+  // --- 2. СОСТОЯНИЕ И АВТО-ЛОГИН ---
   let state = {
     currentUser: null,
     users: JSON.parse(localStorage.getItem('skinup_users')) || {},
-    upgradeBet: [], // До 5 скинов
-    upgradePercent: 50,
-    upgradeMult: 2,
+    
+    // Апгрейд
+    upBet: null,     // Скин, который ставим
+    upTarget: null,  // Скин, который хотим получить
     isSpinningUp: false,
     isFastUp: true,
     
-    bottleBet: [], // До 6 скинов
+    // Бутылка
+    bottleBet: [],   // Массив из 6 скинов
+    bottleSlots: [], // 6 скинов на выпадение
     isSpinningBtl: false,
     isFastBtl: true,
-    bottleSlots: [], // Скины, которые выпадут
     
+    // Покупка
     currentBuySkin: null,
     buyQty: 1
   };
@@ -656,7 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedSession = localStorage.getItem('skinup_session');
   if (savedSession && state.users[savedSession]) state.currentUser = savedSession;
 
-  // --- 4. ЗВУКИ (Web Audio API) ---
+  // Звуки
   let audioCtx = null;
   function initAudio() { if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
   function playTick() {
@@ -680,7 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 5. ОБНОВЛЕНИЕ UI ---
+  // UI
   const balanceVal = document.getElementById('balanceVal');
   const headerLoginBtn = document.getElementById('headerLoginBtn');
   const headerUserProfile = document.getElementById('headerUserProfile');
@@ -700,79 +714,227 @@ document.addEventListener('DOMContentLoaded', () => {
       headerUserProfile.style.display = 'none';
     }
     
-    // Апгрейд
-    document.getElementById('chanceDisplay').textContent = `${state.upgradePercent} %`;
-    document.getElementById('percentEl').textContent = `${state.upgradePercent}%`;
-    document.getElementById('fillEl').style.height = `${state.upgradePercent}%`;
-    
-    // Стоимость ставки в апгрейде
-    let betSum = state.upgradeBet.reduce((sum, s) => sum + s.price, 0);
-    document.getElementById('winAmountEl').textContent = `Выигрыш: ~${Math.round(betSum * (100/state.upgradePercent))} G`;
-    document.getElementById('upgradeBtn').disabled = !state.currentUser || state.upgradeBet.length === 0 || state.isSpinningUp;
-
-    // Бутылка
-    const totalBetBtl = state.bottleBet.reduce((sum, s) => sum + s.price, 0);
-    document.getElementById('spinBottleBtn').disabled = !state.currentUser || state.bottleBet.length !== 6 || state.isSpinningBtl;
-    
-    renderSlots();
+    updateUpgradeUI();
+    updateBottleUI();
     renderItems('upgrade');
     renderItems('bottle');
   }
 
-  // --- 6. СТАВКИ (СЛОТЫ) ---
-  function renderSlots() {
-    // Апгрейд
-    const upContainer = document.getElementById('upgradeBets');
-    upContainer.innerHTML = '';
-    for (let i = 0; i < 5; i++) {
-      const div = document.createElement('div');
-      div.className = `bet-slot ${state.upgradeBet[i] ? 'filled' : ''}`;
-      if (state.upgradeBet[i]) {
-        div.innerHTML = `<img src="${state.upgradeBet[i].img}"><button class="remove-btn" onclick="removeBet('upgrade', ${i})">×</button>`;
-      } else {
-        div.innerHTML = '+';
-        div.onclick = () => openSelectBetModal('upgrade');
-      }
-      upContainer.appendChild(div);
+  // --- 3. АПГРЕЙД ЛОГИКА ---
+  window.switchUpTab = (tab) => {
+    document.getElementById('tabBetBtn').classList.toggle('active', tab === 'bet');
+    document.getElementById('tabTargetBtn').classList.toggle('active', tab === 'target');
+    switchShopTab('shop', 'upgrade'); // Открываем магазин для выбора
+  };
+
+  function updateUpgradeUI() {
+    const betSlot = document.getElementById('betSlot');
+    const targetSlot = document.getElementById('targetSlot');
+    const controls = document.getElementById('upgradeControls');
+
+    // Слот ставки
+    if (state.upBet) {
+      betSlot.innerHTML = `<img src="${state.upBet.img}" class="up-slot-img"><div class="up-slot-name">${state.upBet.name} ${state.upBet.sub}</div><div class="up-slot-price">${state.upBet.price.toFixed(0)} G</div>`;
+      betSlot.classList.add('active-target');
+    } else {
+      betSlot.innerHTML = `<span style="color:var(--text-muted); font-size:12px;">Выберите скин</span>`;
+      betSlot.classList.remove('active-target');
     }
 
-    // Бутылка
-    // Бутылка использует фиксированные шансы и подбирает скины автоматически
-    if (state.bottleBet.length === 6) {
-      calculateBottleSlots();
+    // Слот цели
+    if (state.upTarget) {
+      targetSlot.innerHTML = `<img src="${state.upTarget.img}" class="up-slot-img"><div class="up-slot-name">${state.upTarget.name} ${state.upTarget.sub}</div><div class="up-slot-price">${state.upTarget.price.toFixed(0)} G</div>`;
+      targetSlot.classList.add('active-target');
+    } else {
+      targetSlot.innerHTML = `<span style="color:var(--text-muted); font-size:12px;">Выберите цель</span>`;
+      targetSlot.classList.remove('active-target');
+    }
+
+    // Шанс
+    if (state.upBet && state.upTarget) {
+      controls.style.display = 'flex';
+      let chance = (state.upBet.price / state.upTarget.price) * 100;
+      if (chance > 80) chance = 80; // Ограничение по ТЗ
+      if (chance > 100) chance = 100;
+      document.getElementById('upChance').textContent = `${chance.toFixed(1)}%`;
+      document.getElementById('upgradeBtn').disabled = state.isSpinningUp;
+    } else {
+      controls.style.display = 'none';
     }
   }
 
-  window.removeBet = (type, index) => {
-    if (type === 'upgrade') state.upgradeBet.splice(index, 1);
-    if (type === 'bottle') state.bottleBet.splice(index, 1);
-    updateUI();
+  window.toggleLightning = (type) => {
+    if (type === 'upgrade') {
+      state.isFastUp = !state.isFastUp;
+      document.getElementById('upgradeLightning').classList.toggle('active', state.isFastUp);
+    } else {
+      state.isFastBtl = !state.isFastBtl;
+      document.getElementById('bottleLightning').classList.toggle('active', state.isFastBtl);
+    }
   };
 
-  window.updateUpgradePercent = (val) => {
-    state.upgradePercent = parseInt(val);
-    // Автоматически обновляем активный множитель
-    const mult = 100 / state.upgradePercent;
-    document.querySelectorAll('#page-upgrade .mult-btn').forEach(btn => {
-      btn.classList.toggle('active', Math.abs(parseFloat(btn.dataset.mult) - mult) < 0.1);
-    });
-    updateUI();
-  };
+  document.getElementById('upgradeBtn').addEventListener('click', () => {
+    if (state.isSpinningUp || !state.upBet || !state.upTarget) return;
+    initAudio();
+    state.isSpinningUp = true;
+    
+    let chance = (state.upBet.price / state.upTarget.price) * 100;
+    if (chance > 80) chance = 80; // Лимит
+    const isWin = Math.random() * 100 < chance;
 
-  document.querySelectorAll('#page-upgrade .mult-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if(state.isSpinningUp) return;
-      const mult = parseFloat(btn.dataset.mult);
-      state.upgradePercent = Math.round(100 / mult);
-      document.getElementById('percentSlider').value = state.upgradePercent;
-      updateUpgradePercent(state.upgradePercent);
-    });
+    const wheel = document.getElementById('arrowContainer'); // Колесо старое, тут его нет, используем анимацию кнопки
+    const duration = state.isFastUp ? 500 : 2000;
+    
+    // Просто имитация загрузки
+    document.getElementById('upgradeBtn').textContent = 'Крутим...';
+    
+    setTimeout(() => {
+      if (isWin) {
+        playWin();
+        // Забираем скин, удаляем ставку
+        // В реальности тут добавление в инвентарь, но упростим до баланса
+        state.users[state.currentUser].balance += state.upTarget.price;
+        document.getElementById('notificationEl').textContent = `Успех! +${state.upTarget.price} G`;
+        document.getElementById('notificationEl').className = 'notification win';
+      } else {
+        document.getElementById('notificationEl').textContent = `Поражение`;
+        document.getElementById('notificationEl').className = 'notification lose';
+      }
+
+      // Очищаем слоты (удаляем скины окончательно)
+      state.upBet = null;
+      state.upTarget = null;
+      state.isSpinningUp = false;
+      localStorage.setItem('skinup_users', JSON.stringify(state.users));
+      
+      // Возвращаем кнопку
+      document.getElementById('upgradeBtn').textContent = 'Прокачать';
+      updateUI();
+
+      const area = document.getElementById('actionArea');
+      area.classList.add('show-result');
+      setTimeout(() => area.classList.remove('show-result'), 2000);
+    }, duration);
   });
 
-  // --- 7. МАГАЗИН И ПОКУПКА ---
+  // --- 4. БУТЫЛОЧКА ЛОГИКА ---
+  const btlChances = [23, 23, 23, 20, 10, 1];
+  
+  function updateBottleUI() {
+    const slotsContainer = document.getElementById('betsSlots');
+    slotsContainer.innerHTML = '';
+    
+    // Отрисовка слотов ставок
+    for (let i = 0; i < 6; i++) {
+      const div = document.createElement('div');
+      div.className = `bet-slot-mini ${state.bottleBet[i] ? 'filled' : ''}`;
+      if (state.bottleBet[i]) {
+        div.innerHTML = `<img src="${state.bottleBet[i].img}"><div class="b-price">${state.bottleBet[i].price.toFixed(0)} G</div><button class="remove-btn" style="position:absolute; top:2px; right:2px; background:red; color:white; border:none; border-radius:50%; width:16px; height:16px;" onclick="removeBtlBet(${i})">×</button>`;
+      } else {
+        div.innerHTML = `<span style="font-size:20px; color:#30363d;">+</span>`;
+        div.onclick = () => switchShopTab('inv', 'bottle');
+      }
+      slotsContainer.appendChild(div);
+    }
+
+    // Сумма
+    const sum = state.bottleBet.reduce((s, i) => s + i.price, 0);
+    document.getElementById('betsSum').textContent = sum.toFixed(0);
+    document.getElementById('betsCount').textContent = `${state.bottleBet.length}/6`;
+
+    // Подбор скинов на выпадение
+    if (state.bottleBet.length === 6) {
+      state.bottleSlots = btlChances.map(chance => {
+        const targetPrice = sum * (chance / 100);
+        let closest = allSkins[0];
+        let minDiff = Infinity;
+        allSkins.forEach(skin => {
+          const diff = Math.abs(skin.price - targetPrice);
+          if (diff < minDiff) { minDiff = diff; closest = skin; }
+        });
+        return closest;
+      });
+      
+      const panel = document.getElementById('chancesPanel');
+      panel.innerHTML = '';
+      btlChances.forEach((chance, i) => {
+        const skin = state.bottleSlots[i];
+        panel.innerHTML += `
+          <div class="chance-box ${chance > 15 ? 'win' : 'lose'}">
+            <img src="${skin.img}">
+            <div class="c-percent">${chance}%</div>
+          </div>
+        `;
+      });
+      
+      document.getElementById('spinBottleBtn').disabled = state.isSpinningBtl;
+    } else {
+      document.getElementById('chancesPanel').innerHTML = '<div style="grid-column: span 2; text-align:center; color:#8b96a5; font-size:12px; padding-top:20px;">Выберите 6 скинов</div>';
+      document.getElementById('spinBottleBtn').disabled = true;
+    }
+  }
+
+  window.removeBtlBet = (idx) => {
+    state.bottleBet.splice(idx, 1);
+    updateUI();
+  };
+
+  document.getElementById('spinBottleBtn').addEventListener('click', () => {
+    if (state.isSpinningBtl || state.bottleBet.length !== 6) return;
+    initAudio();
+    state.isSpinningBtl = true;
+    
+    const totalBet = state.bottleBet.reduce((s, i) => s + i.price, 0);
+    const rand = Math.random() * 100;
+    let winIndex = 0;
+    let sum = 0;
+    for(let i=0; i<btlChances.length; i++) {
+      sum += btlChances[i];
+      if (rand <= sum) { winIndex = i; break; }
+    }
+
+    const bottle = document.getElementById('bottleSvg');
+    const targetAngle = winIndex * 60;
+    const duration = state.isFastBtl ? 500 : 4000;
+    
+    bottle.style.transition = `transform ${duration}ms cubic-bezier(0.1, 0.8, 0.2, 1)`;
+    bottle.style.transform = `rotate(${targetAngle + (360 * (state.isFastBtl ? 2 : 5))}deg)`;
+
+    setTimeout(() => {
+      state.isSpinningBtl = false;
+      bottle.style.transition = 'none';
+      bottle.style.transform = `rotate(${targetAngle}deg)`;
+      
+      const wonSkin = state.bottleSlots[winIndex];
+      const isWin = wonSkin.price > totalBet;
+      
+      if (isWin) {
+        playWin();
+        state.users[state.currentUser].balance += wonSkin.price;
+      }
+      
+      document.getElementById('winModalImg').innerHTML = `<img src="${wonSkin.img}">`;
+      document.getElementById('winModalTitle').textContent = isWin ? 'ПОБЕДА' : 'ПОРАЖЕНИЕ';
+      document.getElementById('winModalTitle').className = `win-modal-title ${isWin ? 'win' : 'lose'}`;
+      document.getElementById('winModalText').textContent = `${wonSkin.name} ${wonSkin.sub} (${wonSkin.price.toFixed(0)} G)`;
+      
+      openModal('winModal');
+      
+      state.bottleBet = [];
+      localStorage.setItem('skinup_users', JSON.stringify(state.users));
+      updateUI();
+      
+      setTimeout(() => {
+        bottle.style.transition = `transform ${duration}ms cubic-bezier(0.1, 0.8, 0.2, 1)`;
+      }, 100);
+
+    }, duration + 100);
+  });
+
+  // --- 5. МАГАЗИН ---
   window.switchShopTab = (tab, page) => {
-    const invBtn = document.getElementById(page === 'upgrade' ? 'tabInvBtnUp' : 'tabInvBtnBtl');
-    const shopBtn = document.getElementById(page === 'upgrade' ? 'tabShopBtnUp' : 'tabShopBtnBtl');
+    const invBtn = document.getElementById(page === 'upgrade' ? 'invTabBtnUp' : 'invTabBtnBtl');
+    const shopBtn = document.getElementById(page === 'upgrade' ? 'shopTabBtnUp' : 'shopTabBtnBtl');
     const invContent = document.getElementById(page === 'upgrade' ? 'invContentUp' : 'invContentBtl');
     const shopContent = document.getElementById(page === 'upgrade' ? 'shopContentUp' : 'shopContentBtl');
     const filters = document.getElementById(page === 'upgrade' ? 'filtersUpgrade' : 'filtersBottle');
@@ -813,7 +975,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.className = 'skin-card';
       
       if (isInv) {
-        card.onclick = () => addBetFromInventory(page, idx);
+        card.onclick = () => selectFromInventory(page, idx);
       } else {
         card.onclick = () => openBuyModal(skin);
       }
@@ -830,26 +992,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Добавление в ставку из инвентаря
-  function addBetFromInventory(page, idx) {
+  function selectFromInventory(page, idx) {
     if (!state.currentUser) return;
     const skin = state.users[state.currentUser].inventory[idx];
     
     if (page === 'upgrade') {
-      if (state.upgradeBet.length >= 5) return alert('Максимум 5 скинов!');
-      state.upgradeBet.push(skin);
+      // Если выбрали ставку
+      if (document.getElementById('tabBetBtn').classList.contains('active')) {
+        if (state.upBet) { // Возвращаем старый в инвентарь
+           state.users[state.currentUser].inventory.push(state.upBet);
+        }
+        state.upBet = skin;
+        state.users[state.currentUser].inventory.splice(idx, 1);
+      } 
+      // Если выбрали цель
+      else {
+        state.upTarget = skin;
+        // Цель не удаляем из инвентаря (просто выбрали)
+        // Но если передумали, ничего страшного
+        switchUpTab('bet'); // Возвращаемся назад
+      }
     } else {
       if (state.bottleBet.length >= 6) return alert('Максимум 6 скинов!');
       state.bottleBet.push(skin);
+      state.users[state.currentUser].inventory.splice(idx, 1);
     }
     
-    // Удаляем из инвентаря (временно, чтоб нельзя было дважды поставить)
-    state.users[state.currentUser].inventory.splice(idx, 1);
     localStorage.setItem('skinup_users', JSON.stringify(state.users));
     updateUI();
   }
 
-  // --- 8. МОДАЛКА ПОКУПКИ ---
+  // --- 6. МОДАЛКА ПОКУПКИ ---
   window.openBuyModal = (skin) => {
     if (!state.currentUser) return alert('Войдите в аккаунт!');
     state.currentBuySkin = skin;
@@ -884,168 +1057,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     updateUI();
     closeModal('buyModal');
-    alert(`Куплено ${state.buyQty}x ${state.currentBuySkin.name}`);
   };
 
-  // --- 9. АПГРЕЙД ЛОГИКА ---
-  window.toggleLightning = (type) => {
-    if (type === 'upgrade') {
-      state.isFastUp = !state.isFastUp;
-      document.getElementById('upgradeLightning').classList.toggle('active', state.isFastUp);
-    } else {
-      state.isFastBtl = !state.isFastBtl;
-      document.getElementById('bottleLightning').classList.toggle('active', state.isFastBtl);
-    }
-  };
-
-  document.getElementById('upgradeBtn').addEventListener('click', () => {
-    if (state.isSpinningUp || state.upgradeBet.length === 0) return;
-    initAudio();
-    state.isSpinningUp = true;
-    
-    const isWin = Math.random() * 100 < state.upgradePercent;
-    const totalBet = state.upgradeBet.reduce((s, i) => s + i.price, 0);
-    const targetValue = totalBet * (100 / state.upgradePercent);
-
-    // Логика анимации
-    const wheel = document.getElementById('arrowContainer');
-    const spins = state.isFastUp ? 2 : 5;
-    const duration = state.isFastUp ? 500 : 3000;
-    const targetAngle = isWin ? 180 : 0; // Просто для визуала
-
-    let start = null;
-    function step(timestamp) {
-      if(!start) start = timestamp;
-      const progress = timestamp - start;
-      const eased = Math.min(progress / duration, 1);
-      
-      if(!state.isFastUp && Math.random() > 0.8) playTick();
-      
-      wheel.style.transform = `rotate(${eased * 360 * spins}deg)`;
-      
-      if (progress < duration) {
-        requestAnimationFrame(step);
-      } else {
-        finishUpgrade(isWin, targetValue);
-      }
-    }
-    requestAnimationFrame(step);
-  });
-
-  function finishUpgrade(isWin, targetValue) {
-    state.isSpinningUp = false;
-    if (isWin) {
-      playWin();
-      // Выдаем баланс
-      state.users[state.currentUser].balance += targetValue;
-      document.getElementById('notificationEl').textContent = `Победа! +${Math.round(targetValue)} G`;
-      document.getElementById('notificationEl').className = 'notification win';
-    } else {
-      document.getElementById('notificationEl').textContent = `Поражение`;
-      document.getElementById('notificationEl').className = 'notification lose';
-    }
-    
-    // Очищаем ставки
-    state.upgradeBet = [];
-    localStorage.setItem('skinup_users', JSON.stringify(state.users));
-    updateUI();
-    
-    const area = document.getElementById('actionArea');
-    area.classList.add('show-result');
-    setTimeout(() => area.classList.remove('show-result'), 2000);
-  }
-
-  // --- 10. БУТЫЛОЧКА ЛОГИКА ---
-  // Фиксированные шансы и слоты для бутылки
-  const btlChances = [23, 23, 23, 20, 10, 1];
-  
-  function calculateBottleSlots() {
-    // Берем 6 скинов, ближайших по цене к ставке * шанс
-    const totalBet = state.bottleBet.reduce((s, i) => s + i.price, 0);
-    
-    // Для каждого слота ищем скин
-    state.bottleSlots = btlChances.map((chance) => {
-      const targetPrice = totalBet * (chance / 100);
-      // Ищем самый близкий по цене скин
-      let closest = allSkins[0];
-      let minDiff = Infinity;
-      allSkins.forEach(skin => {
-        const diff = Math.abs(skin.price - targetPrice);
-        if (diff < minDiff) { minDiff = diff; closest = skin; }
-      });
-      return closest;
-    });
-
-    // Отрисовываем
-    for(let i=0; i<6; i++) {
-      const el = document.getElementById(`b-slot-${i+1}`);
-      const skin = state.bottleSlots[i];
-      el.innerHTML = `
-        <img src="${skin.img}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xNCA0bC0yIDItMy0zLTItMi01IDUgMiA1IDMgMyAyLTJ6Ii8+PC9zdmc+'">
-        <div class="b-price">${skin.price.toFixed(0)} G</div>
-        <div class="b-chance">${btlChances[i]}%</div>
-      `;
-      el.className = `bottle-item pos-${i+1} ${btlChances[i] > 15 ? 'win' : 'lose'}`;
-    }
-  }
-
-  document.getElementById('spinBottleBtn').addEventListener('click', () => {
-    if (state.isSpinningBtl || state.bottleBet.length !== 6) return;
-    initAudio();
-    state.isSpinningBtl = true;
-    
-    const totalBet = state.bottleBet.reduce((s, i) => s + i.price, 0);
-
-    // Выбираем выигрышный сектор
-    const rand = Math.random() * 100;
-    let winIndex = 0;
-    let sum = 0;
-    for(let i=0; i<btlChances.length; i++) {
-      sum += btlChances[i];
-      if (rand <= sum) { winIndex = i; break; }
-    }
-
-    const bottle = document.getElementById('bottleSvg');
-    const targetAngle = winIndex * 60; // 360 / 6 = 60
-    const duration = state.isFastBtl ? 500 : 4000;
-    
-    bottle.style.transition = `transform ${duration}ms cubic-bezier(0.1, 0.8, 0.2, 1)`;
-    bottle.style.transform = `rotate(${targetAngle + (360 * (state.isFastBtl ? 2 : 5))}deg)`;
-
-    setTimeout(() => {
-      state.isSpinningBtl = false;
-      bottle.style.transition = 'none';
-      bottle.style.transform = `rotate(${targetAngle}deg)`;
-      
-      const wonSkin = state.bottleSlots[winIndex];
-      const isWin = wonSkin.price > totalBet;
-      
-      if (isWin) {
-        playWin();
-        state.users[state.currentUser].balance += wonSkin.price;
-      }
-      
-      document.getElementById('winModalImg').innerHTML = `<img src="${wonSkin.img}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxwYXRoIGQ9Ik0xNCA0bC0yIDItMy0zLTItMi01IDUgMiA1IDMgMyAyLTJ6Ii8+PC9zdmc+'">`;
-      document.getElementById('winModalTitle').textContent = isWin ? 'ПОБЕДА' : 'ПОРАЖЕНИЕ';
-      document.getElementById('winModalTitle').className = `win-modal-title ${isWin ? 'win' : 'lose'}`;
-      document.getElementById('winModalText').textContent = `${wonSkin.name} ${wonSkin.sub} (${wonSkin.price.toFixed(0)} G)`;
-      
-      openModal('winModal');
-      
-      // Очищаем ставки
-      state.bottleBet = [];
-      localStorage.setItem('skinup_users', JSON.stringify(state.users));
-      updateUI();
-      
-      // Возвращаем молнию
-      setTimeout(() => {
-        bottle.style.transition = `transform ${duration}ms cubic-bezier(0.1, 0.8, 0.2, 1)`;
-      }, 100);
-
-    }, duration + 100);
-  });
-
-  // --- 11. АВТОРИЗАЦИЯ И НАВИГАЦИЯ ---
+  // --- 7. АВТОРИЗАЦИЯ И НАВИГАЦИЯ ---
   window.openModal = (id) => document.getElementById(id).classList.add('active');
   window.closeModal = (id) => document.getElementById(id).classList.remove('active');
 
