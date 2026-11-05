@@ -47,7 +47,7 @@
   .up-slot .price { font-size: 12px; font-weight: bold; color: var(--yellow); }
   .up-arrow { font-size: 24px; color: var(--text-muted); }
 
-  /* КОЛЕСО (Наверху) */
+  /* КОЛЕСО */
   .wheel-container { position: relative; width: 180px; height: 180px; margin: 20px auto 30px; border-radius: 50%; border: 8px solid #1f2733; }
   .circle { position: absolute; inset: 0; border-radius: 50%; background: #232b36; overflow: hidden; }
   .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 50%; background: linear-gradient(180deg, #ffea00 0%, var(--orange) 100%); transition: height 0.3s; }
@@ -56,7 +56,11 @@
   .arrow-container { position: absolute; inset: -8px; pointer-events: none; z-index: 5; transform-origin: center center; }
   .arrow { position: absolute; top: 0; left: 50%; width: 14px; height: 18px; margin-left: -7px; clip-path: polygon(0% 0%, 100% 0%, 50% 100%); background: #fff; }
 
-  /* МНОЖИТЕЛИ */
+  /* ПРОЦЕНТЫ И МНОЖИТЕЛИ */
+  .slider-container { width: 100%; margin-bottom: 15px; }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; }
+  .percent-slider { width: 100%; accent-color: var(--yellow); }
+  
   .multipliers { display: flex; gap: 8px; width: 100%; margin-bottom: 20px; }
   .mult-btn { flex: 1; background: #161b22; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 0; border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; }
   .mult-btn.active { background: var(--yellow); color: #000; border-color: var(--yellow); }
@@ -85,16 +89,6 @@
   .skin-subname { font-size: 11px; font-weight: 700; color: #ff5c5c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .skin-price { color: var(--yellow); font-weight: 700; font-size: 11px; margin-top: auto; text-align: right; }
 
-  /* БУТЫЛОЧКА */
-  .bottle-wrapper { position: relative; width: 100%; max-width: 320px; height: 320px; margin: 20px auto 40px; display: flex; justify-content: center; align-items: center; }
-  .bottle-circle { position: absolute; width: 90%; height: 90%; border-radius: 50%; border: 1px dashed #30363d; }
-  .bottle-center { position: absolute; width: 140px; height: 140px; background: radial-gradient(circle, #ffd12e 0%, #ff7a00 100%); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 60px rgba(255, 209, 46, 0.6); z-index: 10; transition: transform 0.1s; }
-  .bottle-center svg { width: 70px; height: 70px; fill: #fff; }
-  .bottle-item { position: absolute; width: 60px; height: 60px; background: #1a2029; border: 1px solid var(--border-color); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 14px; font-weight: 700; z-index: 5; }
-  .bottle-item.win { color: var(--green); } .bottle-item.lose { color: var(--red); }
-  .pos-1 { top: -10px; left: 50%; transform: translate(-50%, 0); } .pos-2 { top: 15%; right: -10px; } .pos-3 { bottom: 15%; right: -10px; } .pos-4 { bottom: -10px; left: 50%; transform: translate(-50%, 0); } .pos-5 { bottom: 15%; left: -10px; } .pos-6 { top: 15%; left: -10px; }
-  .spin-bottle-btn { width: 100%; max-width: 340px; background: linear-gradient(90deg, #ffd12e 0%, #ff9d00 100%); color: #000; border: none; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: 800; cursor: pointer; }
-  
   /* НАВИГАЦИЯ */
   .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; background: var(--nav-bg); border-top: 1px solid #1f2733; display: flex; justify-content: space-around; z-index: 100; }
   .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-size: 11px; gap: 4px; cursor: pointer; width: 50%; }
@@ -164,6 +158,14 @@
       <div class="arrow-container" id="arrowContainer"><div class="arrow"></div></div>
     </div>
 
+    <!-- ПОЛЗУНОК ПРОЦЕНТОВ -->
+    <div class="slider-container">
+      <div class="slider-labels">
+        <span>Шанс: <span id="chanceDisplay">50</span>%</span>
+      </div>
+      <input type="range" class="percent-slider" id="percentSlider" min="10" max="80" value="50" oninput="updateUpgradePercent(this.value)">
+    </div>
+
     <!-- МНОЖИТЕЛИ -->
     <div class="multipliers">
       <button class="mult-btn" data-mult="1.3">x1.3</button>
@@ -176,7 +178,6 @@
     <div class="action-area" id="actionArea">
       <button class="btn-main" id="upgradeBtn" disabled>Прокачать</button>
       <button class="btn-light active" id="upgradeLightning" onclick="toggleLightning('upgrade')">⚡</button>
-      <div class="notification" id="notificationEl"></div>
     </div>
 
     <div class="shop-section" id="shopUpgrade">
@@ -215,7 +216,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   
-  // ЧИСТЫЙ СПИСОК СКИНОВ (без битых картинок)
+  // ЧИСТЫЙ СПИСОК СКИНОВ (без битых картинок, которые ты скинул)
   let allSkins = [
     { name: "Akimbo Uzi", sub: "Overdrive Red", price: 55.00, img: "images/akimbo-uzi-overdrive-red.png" },
     { name: "F/S", sub: "Venom", price: 55.77, img: "images/fs-venom.png" },
@@ -275,13 +276,38 @@ document.addEventListener('DOMContentLoaded', () => {
     currentUser: null,
     users: JSON.parse(localStorage.getItem('skinup_users')) || {},
     upBet: null, upTarget: null, isSpinningUp: false, isFastUp: true,
-    currentBuySkin: null, buyQty: 1, currentPage: 'upgrade', currentUpTab: 'bet'
+    currentBuySkin: null, buyQty: 1, currentPage: 'upgrade', currentUpTab: 'bet',
+    upgradePercent: 50
   };
 
   const savedSession = localStorage.getItem('skinup_session');
   if (savedSession && state.users[savedSession]) state.currentUser = savedSession;
 
   function saveUsers() { localStorage.setItem('skinup_users', JSON.stringify(state.users)); }
+
+  // Звуки
+  let audioCtx = null;
+  function initAudio() { if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+  function playTick() {
+    if(!audioCtx) return;
+    const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+  }
+  function playWin() {
+    if(!audioCtx) return;
+    [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+      setTimeout(() => {
+        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'triangle'; osc.frequency.value = f;
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+      }, i * 100);
+    });
+  }
 
   function updateUI() {
     if (state.currentUser) {
@@ -295,7 +321,23 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('headerLoginBtn').style.display = 'block';
       document.getElementById('headerUserProfile').style.display = 'none';
     }
-    updateUpgradeUI();
+    
+    const balance = state.currentUser ? state.users[state.currentUser].balance : 0;
+    const canPlay = state.currentUser && balance >= state.upBet?.price && state.upTarget && !state.isSpinningUp;
+    document.getElementById('upgradeBtn').disabled = !canPlay;
+
+    document.getElementById('chanceDisplay').textContent = state.upgradePercent;
+    document.getElementById('percentSlider').value = state.upgradePercent;
+    document.getElementById('percentEl').textContent = `${state.upgradePercent}%`;
+    document.getElementById('fillEl').style.height = `${state.upgradePercent}%`;
+
+    // Кнопки множителей
+    const mult = 100 / state.upgradePercent;
+    document.querySelectorAll('.mult-btn').forEach(btn => {
+      btn.classList.toggle('active', Math.abs(parseFloat(btn.dataset.mult) - mult) < 0.1);
+    });
+
+    updateUpgradeSlots();
     renderItems(state.currentPage);
   }
 
@@ -311,18 +353,39 @@ document.addEventListener('DOMContentLoaded', () => {
     state.currentUpTab = tab;
     document.getElementById('tabBetBtn').classList.toggle('active', tab === 'bet');
     document.getElementById('tabTargetBtn').classList.toggle('active', tab === 'target');
-    switchShopTab('shop', 'upgrade');
+    document.getElementById('searchInputUp').value = '';
+    renderItems('upgrade');
   };
 
-  window.switchShopTab = (tab, page) => {
-    // Заглушка для магазина, так как он встроен в страницу Апгрейда
+  window.updateUpgradePercent = (val) => {
+    state.upgradePercent = parseInt(val);
+    
+    // Автоматически подставляем скин под нужный процент
+    if (state.upBet) {
+      const targetPrice = state.upBet.price * (100 / state.upgradePercent);
+      let closest = allSkins[0];
+      let minDiff = Infinity;
+      allSkins.forEach(skin => {
+        const diff = Math.abs(skin.price - targetPrice);
+        if (diff < minDiff) { minDiff = diff; closest = skin; }
+      });
+      state.upTarget = closest;
+    }
+    
+    updateUI();
   };
 
-  function updateUpgradeUI() {
+  document.querySelectorAll('.mult-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (state.isSpinningUp) return;
+      const mult = parseFloat(btn.dataset.mult);
+      updateUpgradePercent(Math.round(100 / mult));
+    });
+  });
+
+  function updateUpgradeSlots() {
     const betSlot = document.getElementById('betSlot');
     const targetSlot = document.getElementById('targetSlot');
-    const wheel = document.getElementById('upWheel');
-    const btn = document.getElementById('upgradeBtn');
 
     if (state.upBet) {
       betSlot.innerHTML = `<img src="${state.upBet.img}"><div class="name">${state.upBet.name}</div><div class="price">${state.upBet.price.toFixed(0)} G</div>`;
@@ -339,26 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
       targetSlot.innerHTML = `<span style="color:var(--text-muted); font-size:11px;">Выберите цель</span>`;
       targetSlot.classList.remove('filled');
     }
-
-    if (state.upBet && state.upTarget) {
-      let chance = (state.upBet.price / state.upTarget.price) * 100;
-      if (chance > 100) chance = 100;
-      document.getElementById('percentEl').textContent = `${chance.toFixed(1)}%`;
-      document.getElementById('fillEl').style.height = `${chance}%`;
-      btn.disabled = state.isSpinningUp;
-    } else {
-      document.getElementById('percentEl').textContent = `0%`;
-      document.getElementById('fillEl').style.height = `0%`;
-      btn.disabled = true;
-    }
   }
-
-  window.toggleLightning = (type) => {
-    if (type === 'upgrade') {
-      state.isFastUp = !state.isFastUp;
-      document.getElementById('upgradeLightning').classList.toggle('active', state.isFastUp);
-    }
-  };
 
   function renderItems(page) {
     const grid = document.getElementById('shopGridUp');
@@ -379,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
            state.upTarget = skin;
            switchUpTab('bet');
         } else {
-           // Если выбрали "Ваш инвентарь", но у нас нет вкладки, просто выдаем ошибку или ставим в ставку
+           // Выбор для ставки (берем из инвентаря, если есть, иначе просто ставим)
            if (state.upBet) state.upBet = null;
            state.upBet = skin;
            switchUpTab('target');
@@ -399,11 +443,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('upgradeBtn').addEventListener('click', () => {
     if (state.isSpinningUp || !state.upBet || !state.upTarget) return;
+    initAudio();
     state.isSpinningUp = true;
     
-    let chance = (state.upBet.price / state.upTarget.price) * 100;
-    if (chance > 100) chance = 100;
-    const isWin = Math.random() * 100 < chance;
+    const isWin = Math.random() * 100 < state.upgradePercent;
     const duration = state.isFastUp ? 500 : 3000;
 
     const arrow = document.getElementById('arrowContainer');
@@ -414,11 +457,20 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.getElementById('upgradeBtn').textContent = 'Крутим...';
     
+    let ticks = 0;
+    const tickInterval = setInterval(() => {
+      if(!state.isFastUp) playTick();
+      ticks++;
+      if (ticks > (state.isFastUp ? 2 : 20)) clearInterval(tickInterval);
+    }, 100);
+
     setTimeout(() => {
+      clearInterval(tickInterval);
       arrow.style.transition = 'none';
       arrow.style.transform = 'rotate(0deg)';
       
       if (isWin) {
+        playWin();
         alert(`Победа! Получен ${state.upTarget.name}`);
       } else {
         alert(`Поражение`);
